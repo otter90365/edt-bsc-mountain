@@ -1,6 +1,6 @@
 <template>
   <div
-    class="img-btn py-2 px-5 can-click"
+    class="img-btn py-2 px-5 can-click text-center"
     :class="[dark ? 'white--text' : 'secondary--text', type]"
     @click.stop="clickBtn()"
   >
@@ -37,8 +37,14 @@ export default {
   &.bg-black {
     background: url(../assets/img/btn-bg-black.svg) center / contain no-repeat;
   }
+  &.bg-black-sloped {
+    background: url(../assets/img/btn-bg-black-sloped.svg) center / contain no-repeat;
+  }
   &.border-black {
     background: url(../assets/img/btn-border-black.svg) center / contain no-repeat;
+  }
+  &.border-black-sloped {
+    background: url(../assets/img/btn-border-black-sloped.svg) center / contain no-repeat;
   }
 }
 </style>
