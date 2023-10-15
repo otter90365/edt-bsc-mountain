@@ -1,7 +1,7 @@
 <template>
   <div
     class="img-btn py-2 px-5 can-click"
-    :class="dark ? 'white--text' : 'secondary--text'"
+    :class="[dark ? 'white--text' : 'secondary--text', type]"
     @click.stop="clickBtn()"
   >
     {{ $t(buttonText) }}
@@ -14,6 +14,10 @@ export default {
     buttonText: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'bg-black'
     },
     dark: {
       type: Boolean,
@@ -30,6 +34,11 @@ export default {
 
 <style lang="scss">
 .img-btn {
-  background: url(../assets/img/btn-bg-black.svg) center / contain no-repeat;
+  &.bg-black {
+    background: url(../assets/img/btn-bg-black.svg) center / contain no-repeat;
+  }
+  &.border-black {
+    background: url(../assets/img/btn-border-black.svg) center / contain no-repeat;
+  }
 }
 </style>
