@@ -1,101 +1,89 @@
 <template>
   <div class="defi-list-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="defi-list-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="`${require(`@/assets/img/icon-deposit-${$route.params.token}.png`)}`" width="60px" class="mb-5">
-          <h2 class="mb-5" :class="`primary_${$route.params.token}--text`">{{ $t('orderList') }}</h2>
-          <!--<div style="width: 100%;">
-            <div class="d-flex justify-space-between align-center">
-              <div>
-                <span class="mr-10">{{ $t('gasNowEstimate') }}</span>
-                <span class="gas-text error--text font-weight-bold">{{ gasNow }}</span>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13">
+          <template #content>
+            <titleBlock class="mb-4" title="orderList" icon="icon-deposit.svg"></titleBlock>
+            <v-select
+              class="mb-2 rounded-0"
+              style="width: 100%;"
+              v-model="searchType"
+              outlined
+              dense
+              hide-details
+              full-width
+              :items="searchItems"
+              item-text="name"
+              item-value="value"
+              color="primary"
+              item-color="secondary"
+            ></v-select>
+            <div class="d-flex flex-column flex-md-row justify-center align-end align-md-center mb-2" style="width: 100%;">
+              <div class="d-flex justify-center align-center mb-2 mb-md-0" style="width: 100%;">
+                <v-select
+                  v-if="searchType!=='token'"
+                  class="mr-2 rounded-0"
+                  style="max-width: 150px;"
+                  v-model="filterType"
+                  outlined
+                  dense
+                  hide-details
+                  dark
+                  :items="filterItem"
+                  item-text="name"
+                  item-value="value"
+                  color="secondary"
+                  background-color="secondary"
+                  item-color="secondary"
+                ></v-select>
+                <v-text-field
+                  v-if="searchType!=='token'"
+                  class="mr-md-2 mr-0 rounded-0"
+                  v-model="search"
+                  outlined
+                  dense
+                  hide-details
+                  full-width
+                  @keydown="searchEnter"
+                  color="primary"
+                ></v-text-field>
+                <v-select
+                  v-else
+                  class="mr-md-2 mr-0 rounded-0"
+                  v-model="search"
+                  outlined
+                  dense
+                  hide-details
+                  full-width
+                  :items="tokenItems"
+                  item-text="name"
+                  item-value="value"
+                  color="primary"
+                  item-color="secondary"
+                ></v-select>
               </div>
-              <span>UT</span>
+              <btn noRounded :buttonText="'filter'" color="secondary" @clickBtn="searchOrder()"></btn>
             </div>
-            <div class="d-flex justify-center error--text subtitle-2 font-weight-bold text-center">
-              {{ $t('gasWarning') }}
-            </div>
-            <div class="d-flex justify-end subtitle-2">
-              {{ $t('priceUpdated') }} {{ timestampToTime(updateTime) }}
-            </div>
-          </div>-->
-          <v-select
-            class="mb-2"
-            style="width: 100%;"
-            v-model="searchType"
-            outlined
-            dense
-            hide-details
-            full-width
-            :items="searchItems"
-            :item-text="'name'"
-            :item-value="'value'"
-            :color="`primary_${$route.params.token}`"
-            :item-color="`primary_${$route.params.token}`"
-          ></v-select>
-          <div class="d-flex flex-column flex-md-row justify-center align-end align-md-center mb-2" style="width: 100%;">
-            <div class="d-flex justify-center align-center mb-2 mb-md-0" style="width: 100%;">
-              <v-select
-                v-if="searchType!=='token'"
-                class="mr-2"
-                style="max-width: 150px;"
-                v-model="filterType"
-                outlined
-                dense
-                hide-details
-                :items="filterItem"
-                :item-text="'name'"
-                :item-value="'value'"
-                :color="`primary_${$route.params.token}`"
-                :item-color="`primary_${$route.params.token}`"
-              ></v-select>
-              <v-text-field
-                v-if="searchType!=='token'"
-                class="mr-md-2 mr-0"
-                v-model="search"
-                outlined
-                dense
-                hide-details
-                full-width
-                @keydown="searchEnter"
-                :color="`primary_${$route.params.token}`"
-              ></v-text-field>
-              <v-select
-                v-else
-                class="mr-md-2 mr-0"
-                v-model="search"
-                outlined
-                dense
-                hide-details
-                full-width
-                :items="tokenItems"
-                :item-text="'name'"
-                :item-value="'value'"
-                :color="`primary_${$route.params.token}`"
-                :item-color="`primary_${$route.params.token}`"
-              ></v-select>
-            </div>
-            <btn :buttonText="'filter'" :color="`primary_${$route.params.token}`" @clickBtn="searchOrder()"></btn>
-          </div>
 
-          <div class="mb-8" style="width: 100%;">
-            <noRecord v-if="currOrders.length === 0"></noRecord>
-            <orderBlock v-else v-for="(order, i) in currOrders" :key="i" :data="order" buttonText="invest" :isLock="usdtAllowance===0 || usdtAllowance<usdtBalance" @clickBtn="invest(order)" @approve="approve()"></orderBlock>
-          </div>
+            <div class="mb-8 w-100">
+              <noRecord v-if="currOrders.length === 0"></noRecord>
+              <orderBlock v-else v-for="(order, i) in currOrders" :key="i" :data="order" buttonText="invest" :isLock="usdtAllowance===0 || usdtAllowance<usdtBalance" @clickBtn="invest(order)" @approve="approve()"></orderBlock>
+            </div>
 
-          <v-pagination
-            v-if="currOrders.length !== 0"
-            class="mb-8"
-            v-model="currPage"
-            :length="totalPage"
-            :total-visible="7"
-            :color="`primary_${$route.params.token}`"
-          ></v-pagination>
+            <v-pagination
+              v-if="currOrders.length !== 0"
+              class="mb-8"
+              v-model="currPage"
+              :length="totalPage"
+              :total-visible="7"
+              :color="`secondary`"
+            ></v-pagination>
 
-          <btn class="mb-5" :buttonText="'myDeposit'" :color="`primary_${$route.params.token}`" isOutlined :isCenter="true" :width="270" @clickBtn="$router.push({name: 'Defi-deposit-orders'})"></btn>
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="myDeposit" @clickBtn="$router.push({name: 'Defi-deposit-orders'})"></imgBtn>
+            <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
     <loading :loadingShow="loadingShow" :content="loadingText"></loading>
@@ -108,6 +96,9 @@ import orderBlock from '@/components/orderBlock.vue'
 import loading from '@/components/loading.vue'
 import warning from '@/components/warning.vue'
 import noRecord from '@/components/noRecord.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 import Defi from '@/plugins/defi.js'
 import bscUsdt from '@/plugins/bscUsdt.js'
 import bscTbt from '@/plugins/bscTbt.js'
@@ -182,7 +173,10 @@ export default {
     orderBlock,
     loading,
     warning,
-    noRecord
+    noRecord,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   watch: {
     search(newVal){
@@ -486,6 +480,5 @@ export default {
 
 <style lang="scss" scoped>
 .defi-list-page{
-  
 }
 </style>
