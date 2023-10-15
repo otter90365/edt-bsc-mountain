@@ -40,6 +40,9 @@ export default {
   &.bg-black-sloped {
     background: url(../assets/img/btn-bg-black-sloped.svg) center / contain no-repeat;
   }
+  &.bg-white {
+    background: url(../assets/img/btn-bg-white.svg) center / contain no-repeat;
+  }
   &.bg-white-sloped {
     background: url(../assets/img/btn-bg-white-sloped.svg) center / contain no-repeat;
   }
