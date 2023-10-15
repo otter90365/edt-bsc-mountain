@@ -1,7 +1,14 @@
 <template>
   <div class="title-block d-flex flex-column align-center text-center font-weight-bold">
-    <h1 class="title-text d-flex align-center" :class="titleFontSize">
-      <img v-if="icon" class="mr-2" :src="require(`@/assets/img/${icon}`)" :alt="`icon-${title}`">
+    <h1 class="title-text d-flex align-center" :class="[titleFontSize, {'flex-column flex-md-row': icon}]">
+      <img
+        v-if="icon"
+        class="mr-2"
+        :src="require(`@/assets/img/${icon}`)"
+        :alt="`icon-${title}`"
+        :width="$store.state.nowWidth > 960 ? '' : '30px'"
+        :height="$store.state.nowWidth > 960 ? '' : '30px'"
+      >
       {{ $t(title) }}
     </h1>
     <div class="subtitle-text mt-n1">{{ $t(subtitle) }}</div>
