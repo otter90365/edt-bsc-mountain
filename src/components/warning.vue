@@ -1,21 +1,21 @@
 <template>
   <v-dialog persistent v-model="warningShow" max-width="600" width="90%">
     <!-- 風險提示 -->
-    <v-card v-if="page!=='rule'" class="d-flex flex-column justify-center align-center pa-md-10 pa-5">
-      <h2 class="red--text mb-5">{{ $t('warning') }}</h2>
+    <v-card v-if="page!=='rule'" dark color="secondary" class="d-flex flex-column justify-center align-center pa-md-10 pa-5">
+      <h2 class="primary--text mb-5">{{ $t('warning') }}</h2>
       <div class="font-weight-bold">
         <p>{{ $t('warningRegistry') }}</p>
-        <h3 class="text-decoration-underline can-click text-center mb-3" :class="`primary--text`" @click="$router.push({name: 'Defi-registry'})">{{ $t('toRegistry') }}</h3>
+        <btn class="mb-3" noRounded isCenter :buttonText="'toRegistry'" color="white" @clickBtn="$router.push({name: 'Defi-registry'})"></btn>
         <p>{{page==='borrow' ? $t('warningBorrow') : $t('warningDeposit')}}</p>
         <p>{{ $t('warningCalculate') }}</p>
       </div>
-      <h3 class="text-decoration-underline can-click" :class="`primary--text`" @click="$router.push({name: 'Calculator'})">{{ $t('toCalculator') }}</h3>
+      <btn class="mb-3" noRounded isCenter :buttonText="'toCalculator'" color="white" @clickBtn="$router.push({name: 'Calculator'})"></btn>
       <v-checkbox v-model="isConfirm" :color="`primary`">
         <template v-slot:label>
-          <div :class="`primary--text`">{{ $t('agree') }}</div>
+          <div :class="`white--text`">{{ $t('agree') }}</div>
         </template>
       </v-checkbox>
-      <btn :buttonText="'confirm'" :color="`primary`" :width="270" @clickBtn="confirm()"></btn>
+      <imgBtn type="bg-white" style="width: 270px;" :buttonText="'confirm'" @clickBtn="confirm()"></imgBtn>
     </v-card>
 
     <!--彩金池規則-->
@@ -32,6 +32,7 @@
 </template>
 <script>
 import btn from '@/components/btn.vue'
+import imgBtn from '@/components/imgBtn.vue'
 export default {
   name: 'warning',
   props:{
@@ -61,6 +62,7 @@ export default {
   },
   components:{
     btn,
+    imgBtn
   },
   methods:{
     confirm(){
