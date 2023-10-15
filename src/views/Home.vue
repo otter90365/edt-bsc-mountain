@@ -2,32 +2,27 @@
   <div class="index">
     <v-row justify="center" class="my-15">
       <v-col cols="11" sm="9" md="6">
-        <h1 class="text-shadow text-center mb-5" :class="`primary_${$route.params.token}--text`">{{ $t('indexTitle') }}</h1>
-        <h3 class="text-shadow text-center mb-15" :class="`primary_${$route.params.token}--text`">{{ $t('indexSubtitle') }}</h3>
-        <v-card light class="index-card card-wrap">
-          <div class="text-center mb-5">{{ $t('indexDesc') }}</div>
-          <div class="d-flex flex-column justify-center align-center mb-5">
-            <h2 :class="`primary_${$route.params.token}--text`">{{ $t('investAmount') }}</h2>
-            <h2 class="mb-3">{{ totalAmount.toLocaleString() }} {{ ($route.params.token).toUpperCase() }}</h2>
-            <h2 :class="`primary_${$route.params.token}--text`">{{ $t('gamePoolAmount') }}</h2>
-            <h2 class="red--text mb-5">
-              <!-- {{ roundAmount.toLocaleString() }} {{ ($route.params.token).toUpperCase() }} -->
-              {{ $route.params.token === 'tbt' ? '10,570.608' : '646.175' }} {{ ($route.params.token).toUpperCase() }}
-            </h2>
-            <btn class="mb-3" :buttonText="'gamePool'" :color="`primary_${$route.params.token}`" :width="'100%'" @clickBtn="toGame()"></btn>
-            <div class="bsc-egt-block d-flex flex-column justify-center align-center pa-3 can-click" @click="toSwap()" :data-type="$route.params.token">
-              <img :src="`${require(`@/assets/img/icon-bscegt-${$route.params.token}.png`)}`" width="40px">
-              <div class="font-weight-bold" :class="`primary_${$route.params.token}--text`">{{ $t('swapEGT') }}</div>
+        <borderWrapCard class="mb-13">
+          <template #content>
+            <div class="d-flex flex-column justify-center align-center text-center">
+              <titleBlock class="mb-6" title="indexTitle" subtitle="indexSubtitle" titleFontSize="rem-md-28"></titleBlock>
+              <div class="rem-8 mb-1 font-weight-bold">{{ $t('investAmount') }}</div>
+              <div class="rem-8 mb-4 border-secondary w-100" style="color: #E47E07;">{{ totalAmount.toLocaleString() }} {{ ($route.params.token).toUpperCase() }}</div>
+              <imgBtn class="w-100 py-3" type="border-black" :buttonText="'swapEGT'" @clickBtn="toSwap()"></imgBtn>
             </div>
-          </div>
-        </v-card>
+          </template>
+        </borderWrapCard>
+        <h2 class="rem-1 text-center white--text font-weight-regular">{{ $t('indexDesc') }}</h2>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import btn from "@/components/btn.vue";
+// import btn from "@/components/btn.vue";
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 import Game from "@/plugins/game.js";
 import Defi from "@/plugins/defi.js";
 export default {
@@ -41,7 +36,10 @@ export default {
     }
   },
   components:{
-    btn
+    // btn,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   methods:{
     toGame(){

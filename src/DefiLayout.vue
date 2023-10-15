@@ -89,6 +89,7 @@
     </v-app-bar>
 
     <v-main id="main" class="secondary">
+      <img  src="@/assets/img/background-mobile.svg" alt="background-deco">
       <router-view/>
     </v-main>
 
@@ -318,7 +319,17 @@ export default {
 @import '../src/assets/scss/font.scss';
 // layout
 #main{
-  // background: url('../src/assets/img/background.png') no-repeat center center fixed;
+  position: relative;
+  img[alt="background-deco"] {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    display: none;
+    @include dai_vuetify_sm {
+      display: block;
+    }
+  }
+  // background: url('../src/assets/img/background-mobile.svg') no-repeat 100% / contain;
   // -webkit-background-size: cover;
   // -moz-background-size: cover;
   // -o-background-size: cover;
@@ -330,6 +341,15 @@ export default {
   @media (max-width: 600px){
     padding: 40px 20px;
   }
+}
+.border-secondary {
+  border: 2px solid var(--v-secondary-base);
+}
+.w-100 {
+  width: 100%;
+}
+.h-100 {
+  height: 100%;
 }
 // common style
 .text-shadow{
