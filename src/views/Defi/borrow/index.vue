@@ -1,25 +1,34 @@
 <template>
   <div class="defi-borrow-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="defi-borrow-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="`${require(`@/assets/img/icon-borrow-${$route.params.token}.png`)}`" width="60px" class="mb-5">
-          <h2 class="mb-5" :class="`primary_${$route.params.token}--text`">{{ $t('toBorrow') }}</h2>
-          <h3 class="mb-3" :class="`primary_${$route.params.token}--text`">{{ $t('borrowRule') }}</h3>
-          <ol class="mb-5">
-            <li v-for="(text, i) in $t('borrowRuleText')" :key="i" style="white-space: pre-wrap;" v-text="text"></li>
-          </ol>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13">
+          <template #content>
+            <titleBlock class="mb-8" title="toBorrow" icon="icon-borrow.svg"></titleBlock>
+            <h2 class="rem-4 font-weight-bold mb-1 text-center">{{ $t('borrowRule') }}</h2>
+            <p class="rem-0 font-weight-bold">
+              <ol>
+                <li v-for="(text, i) in $t(`borrowRuleText`)" :key="i" style="white-space: pre-wrap;" v-text="text"></li>
+              </ol>
+            </p>
 
-          <btn class="mb-5" :buttonText="'myLoans'" :color="`primary_${$route.params.token}`" isOutlined :isCenter="true" :width="270" @clickBtn="clickBtn('loans')"></btn>
-          <btn class="mb-5" :buttonText="'createLoan'" :color="`primary_${$route.params.token}`" :isCenter="true" :width="270" @clickBtn="clickBtn('create')"></btn>
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <v-row justify="center">
+              <v-col cols="12" sm="6">
+                <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="myLoans" @clickBtn="clickBtn('loans')"></imgBtn>
+                <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="createLoan" @clickBtn="clickBtn('create')"></imgBtn>
+                <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+              </v-col>
+            </v-row>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
-import btn from '@/components/btn.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 import Defi from '@/plugins/defi.js'
 export default {
   name: "Defi-borrow",
@@ -30,7 +39,9 @@ export default {
     }
   },
   components:{
-    btn,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   methods:{
     async clickBtn(link){
