@@ -1,56 +1,61 @@
 <template>
   <div class="defi-deposit-orders-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="defi-deposit-orders-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="`${require(`@/assets/img/icon-deposit-${$route.params.token}.png`)}`" width="60px" class="mb-5">
-          <h2 class="mb-5" :class="`primary_${$route.params.token}--text`">{{ $t('myDeposit') }}</h2>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13">
+          <template #content>
+            <titleBlock class="mb-4" title="myDeposit" icon="icon-deposit.svg"></titleBlock>
 
-          <div class="d-flex flex-column flex-md-row justify-center align-end align-md-center mb-2" style="width: 100%;">
-            <div class="d-flex justify-center align-center mb-2 mb-md-0" style="width: 100%;">
-              <div class="mr-3">{{ $t('loanToken') }}</div>
-              <v-select
-                v-model="search"
-                outlined
-                dense
-                hide-details
-                full-width
-                :items="tokenItems"
-                :item-text="'name'"
-                :item-value="'value'"
-                :color="`primary_${$route.params.token}`"
-                :item-color="`primary_${$route.params.token}`"
-              ></v-select>
+            <div class="d-flex flex-column flex-md-row justify-center align-end align-md-center mb-2" style="width: 100%;">
+              <div class="d-flex justify-center align-center mb-2 mb-md-0" style="width: 100%;">
+                <div class="mr-3">{{ $t('loanToken') }}</div>
+                <v-select
+                  v-model="search"
+                  outlined
+                  dense
+                  hide-details
+                  full-width
+                  :items="tokenItems"
+                  item-text="name"
+                  item-value="value"
+                  color="secondary"
+                  item-color="secondary"
+                  class="rounded-0"
+                ></v-select>
+              </div>
             </div>
-          </div>
 
-          <div class="mb-8" style="width: 100%;">
-            <noRecord v-if="currOrdersDetail.length === 0"></noRecord>
-            <orderBlock v-for="(order, i) in currOrdersDetail" :key="i" :data="order" :buttonText="'withdraw'" @clickBtn="take(order)"></orderBlock>
-          </div>
+            <div class="mb-8 w-100">
+              <noRecord v-if="currOrdersDetail.length === 0"></noRecord>
+              <orderBlock v-for="(order, i) in currOrdersDetail" :key="i" :data="order" :buttonText="'withdraw'" @clickBtn="take(order)"></orderBlock>
+            </div>
 
-          <v-pagination
-            v-if="currOrdersDetail.length !== 0"
-            class="mb-8"
-            v-model="currPage"
-            :length="totalPage"
-            :total-visible="7"
-            :color="`primary_${$route.params.token}`"
-          ></v-pagination>
+            <v-pagination
+              v-if="currOrdersDetail.length !== 0"
+              class="mb-8"
+              v-model="currPage"
+              :length="totalPage"
+              :total-visible="7"
+              color="secondary"
+            ></v-pagination>
 
-          <btn class="mb-5" :buttonText="'orderList'" :color="`primary_${$route.params.token}`" :isCenter="true" :width="270" @clickBtn="$router.push({name: 'Defi-deposit-list'})"></btn>
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="orderList" @clickBtn="$router.push({name: 'Defi-deposit-list'})"></imgBtn>
+            <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
     <loading :loadingShow="loadingShow" :content="'waitGetData'"></loading>
   </div>
 </template>
 <script>
-import btn from '@/components/btn.vue'
 import orderBlock from '@/components/orderBlock.vue'
 import loading from '@/components/loading.vue'
 import noRecord from '@/components/noRecord.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 import Defi from '@/plugins/defi.js'
 export default {
   name: "Defi-deposit-orders",
@@ -67,10 +72,12 @@ export default {
     }
   },
   components:{
-    btn,
     orderBlock,
     loading,
-    noRecord
+    noRecord,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   watch: {
     currPage: {
