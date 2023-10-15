@@ -52,7 +52,7 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-row no-gutters class="order-content text-center" :data-type="$route.params.token">
+    <v-row no-gutters class="order-content border-top text-center" :data-type="$route.params.token">
       <v-col cols="3" class="border-right d-flex flex-md-row flex-column justify-center align-center">
         <v-row no-gutters class="w-100 h-100">
           <v-col cols="12" md="6" class="order-col py-2 d-flex justify-center align-center">{{ $t('loanAmount') }}</v-col>
@@ -89,7 +89,7 @@
       </v-col>
     </v-row>
     
-    <div class="d-flex justify-space-around align-center order-btn pa-2 secondary white--text" :data-type="$route.params.token">
+    <div class="d-flex justify-space-around align-center order-btn border-top pa-2 secondary white--text" :data-type="$route.params.token">
       <div>{{ $t('APR') }} {{ mode==='loan' ? round(365 / (data.settleday / 24) * (round(data.rate))) : round(365 / (data.settleday / 24) * (round(data.rate) / 2)) }} %</div>
 
       <imgBtn
@@ -288,7 +288,7 @@ export default {
 .border-right {
   border-right: 1px solid white !important;
 }
-.order-btn {
+.border-top {
   border-top: 1px solid white !important;
 }
 </style>
