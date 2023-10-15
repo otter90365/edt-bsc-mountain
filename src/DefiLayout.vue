@@ -80,7 +80,7 @@
         
         <v-icon
           class="d-md-none d-flex ml-2"
-          dark
+          color="secondary"
           @click.stop="phoneNavShow = !phoneNavShow"
         >
           mdi-menu
@@ -111,7 +111,7 @@
         >
           <v-list-item-icon>
             <v-icon v-if="item.icon.includes('mdi')">{{ item.icon }}</v-icon>
-            <img v-else :src="`${require(`@/assets/img${item.icon}-${$route.params.token}.png`)}`" width="20px" height="20px">
+            <img v-else :src="`${require(`@/assets/img${item.icon}.svg`)}`" width="20px" height="20px">
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -131,9 +131,9 @@
       <v-row>
         <v-col cols="3" class="d-none d-sm-block"></v-col>
         <v-col cols="6" sm="3" justify="center" align="center" class="can-click" :class="{'secondary':$route.path===item.link}" v-for="(item, i) in footer" :key="i">
-          <router-link :to="`/${$route.params.lang}/${$route.params.token}${item.link}`" class="text-decoration-none" :class="`primary_${$route.params.token}--text`">
-            <div class="w-100 h-100">
-              <img :src="`${require(`@/assets/img${item.icon}-${$route.params.token}.png`)}`" width="30px">
+          <router-link :to="`/${$route.params.lang}/${$route.params.token}${item.link}`" class="text-decoration-none secondary--text">
+            <div class="w-100 h-100 py-3 d-flex flex-md-row flex-column justify-center align-center">
+              <img class="mr-md-2 mr-0 mb-2 mb-md-0" :src="`${require(`@/assets/img${item.icon}.svg`)}`" width="30px">
               <div>{{ $t(item.text) }}</div>
             </div>
           </router-link>
