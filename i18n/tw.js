@@ -15,7 +15,6 @@ export default {
   // home
   homeTitle: '智能合約借貸交易 輕鬆活用數位資產',
   homeSubtitle: '開啟不一樣的投資人生',
-  toSwap: '立即前往TBT SWAP',
   successfullyBorrowAmount: '已成功貸款金額',
   borrowMarket: '{token} 借貸市場',
   title: ['EGT Defi', '借貸交易平台'],

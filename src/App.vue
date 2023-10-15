@@ -5,6 +5,7 @@
       class="app-bar"
       app
       dark
+      color="white"
       :height="$store.state.nowWidth>960?97:''"
       :dense="$store.state.nowWidth<=960"
     >
@@ -13,17 +14,16 @@
           alt="Edt-Logo"
           class="shrink mr-0 mr-md-2"
           contain
-          src="@/assets/img/logo-egtdefi.png"
+          src="@/assets/img/logo.png"
           transition="scale-transition"
           :height="$store.state.nowWidth>960?60:30"
         />
-        <span><span class="rem-6 rem-md-24 mr-1 mr-md-2">{{ $t('title')[0] }}</span><span class="rem-2 rem-md-12">{{ $t('title')[1] }}</span></span>
       </div>
 
       <v-spacer></v-spacer>
 
       <div class="d-flex">
-        <btn class="no-padding-btn" isText :buttonText="$store.state.account? `${$store.state.nowWidth>960?`${shortAddress} ${$t('logout')}`:`${$t('logout')}`}` : `${$t('login')}`" :color="'white'" @clickBtn="log()"></btn>
+        <btn class="no-padding-btn" isText color="secondary" :buttonText="$store.state.account? `${$store.state.nowWidth>960?`${shortAddress} ${$t('logout')}`:`${$t('logout')}`}` : `${$t('login')}`" @clickBtn="log()"></btn>
         <v-menu
           open-on-hover
           offset-y
@@ -36,9 +36,7 @@
                 v-on="on"
                 text
               >
-                <v-icon dark>
-                  mdi-translate
-                </v-icon>
+                <img src="@/assets/img/icon-translate.svg" alt="icon-translate">
               </v-btn>
             </span>
           </template>
@@ -57,7 +55,7 @@
       </div>
     </v-app-bar>
 
-    <v-main id="main">
+    <v-main id="main" class="secondary">
       <router-view/>
     </v-main>
   </v-app>
@@ -153,14 +151,13 @@ export default {
   font-family: Roboto;
 }
 #main{
-  background: url('../src/assets/img/background.png') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  // background: url('../src/assets/img/background.png') no-repeat center center fixed;
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
 }
 .app-bar{
-  background: linear-gradient(to right, #D784B7, #423787) !important;
   .v-toolbar__content{
     @include dai_vuetify_sm{
       padding-left: 0;

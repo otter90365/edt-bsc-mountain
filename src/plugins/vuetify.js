@@ -5,12 +5,15 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
   theme: {
+    options: { customProperties: true },
     themes: {
       light: {
-        primary: '#0abbb5',
-        primary_usdt: '#0abbb5',
-        primary_tbt: '#991594',
-        secondary: '#262626',
+        primary: '#FABF28',
+        primary_usdt: '#FABF28',
+        primary_tbt: '#FABF28',
+        secondary: '#181921',
+        "light-secondary": '#474952',
+        warning: '#D41010',
         purple: '#991594',
         darkPurple: '#4F138A',
         lightGrey: '#D8D8D8',
