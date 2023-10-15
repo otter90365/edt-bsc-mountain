@@ -1,7 +1,7 @@
 <template>
   <div class="defi-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
+      <v-col cols="11" sm="9">
         <borderWrapCard class="mb-13">
           <template #content>
             <titleBlock class="mb-8" title="toDeposit" icon="icon-deposit.svg"></titleBlock>
