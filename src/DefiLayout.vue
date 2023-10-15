@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="secondary"
+      color="white"
       dark
       dense
     >
@@ -11,10 +11,10 @@
           alt="Edt-Logo"
           class="shrink mr-2 can-click"
           contain
-          :src="`${require(`@/assets/img/icon-egt-${$route.params.token}.png`)}`"
+          :src="`${require(`@/assets/img/logo.png`)}`"
           transition="scale-transition"
-          width="40"
-          height="40"
+          width="30"
+          height="30"
           @click="()=>{if ($route.name!=='Index'){ $router.push({name: 'Index', params: {lang: $store.state.locale}})}}"
         />
       </div>
@@ -28,13 +28,28 @@
           :key="i"
           depressed
           exact
-          :color="'rgba(0, 0, 0, 0)'"
+          text
+          color="secondary"
           :to="`/${$route.params.lang}/${$route.params.token}${item.link}`"
           @click="clickNavBtn"
         >
           {{ $t(item.text) }}
         </v-btn>
-        <btn class="ml-3" :buttonText="$store.state.account? `${shortAddress} ${$t('logout')}` : `${$t('login')}`" :color="`primary_${$route.params.token}`" @clickBtn="log()"></btn>
+        <btn
+          v-if="!$store.state.account"
+          class="ml-3"
+          isOutlined
+          buttonText="login"
+          :color="'secondary'"
+          @clickBtn="log()"
+        />
+        <imgBtn
+          v-else
+          dark
+          :buttonText="`${shortAddress} ${$t('logout')}`"
+          @clickBtn="log()"
+        />
+        
         <v-menu
           open-on-hover
           offset-y
@@ -42,13 +57,12 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               class="ml-3"
-              :color="`primary_${$route.params.token}`"
+              color="white"
               v-bind="attrs"
               v-on="on"
+              text
             >
-              <v-icon dark>
-                mdi-translate
-              </v-icon>
+              <img src="@/assets/img/icon-translate.svg" alt="icon-translate">
             </v-btn>
           </template>
 
@@ -74,7 +88,7 @@
       </div>
     </v-app-bar>
 
-    <v-main id="main">
+    <v-main id="main" class="secondary">
       <router-view/>
     </v-main>
 
@@ -132,6 +146,7 @@
 
 <script>
 import btn from '@/components/btn.vue';
+import imgBtn from '@/components/imgBtn.vue';
 import base from '@/mixin/base'
 export default {
   name: 'App',
@@ -151,11 +166,6 @@ export default {
       },
     ],
     navbar: [
-      {
-        text: `gamePool`,
-        link: '/game',
-        icon: '/icon-game',
-      },
       // {
       //   text: `buyEGT`,
       //   link: '/egt',
@@ -166,12 +176,6 @@ export default {
       //   link: '/egt/sell',
       //   icon: '/icon-sell'
       // },
-      {
-        text: `swapEGT`,
-        link: '/egt/swap',
-        icon: '/icon-bscegt',
-        isPhone: true,
-      },
       {
         text: `calculator`,
         link: '/calculator',
@@ -186,7 +190,8 @@ export default {
     defiContract: null
   }),
   components:{
-    btn
+    btn,
+    imgBtn
   },
   computed:{
     shortAddress(){
@@ -313,11 +318,11 @@ export default {
 @import '../src/assets/scss/font.scss';
 // layout
 #main{
-  background: url('../src/assets/img/background.png') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  // background: url('../src/assets/img/background.png') no-repeat center center fixed;
+  // -webkit-background-size: cover;
+  // -moz-background-size: cover;
+  // -o-background-size: cover;
+  // background-size: cover;
 }
 .card-wrap{
   padding: 40px 60px;
