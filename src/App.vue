@@ -8,6 +8,7 @@
       color="white"
       :height="$store.state.nowWidth>960?97:''"
       :dense="$store.state.nowWidth<=960"
+      style="z-index: 99;"
     >
       <div class="d-flex align-center">
         <v-img

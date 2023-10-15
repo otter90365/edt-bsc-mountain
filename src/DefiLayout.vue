@@ -5,6 +5,7 @@
       color="white"
       dark
       dense
+      style="z-index: 99;"
     >
       <div class="d-flex align-center">
         <v-img
@@ -127,7 +128,7 @@
       fixed
       color="white"
       :class="`primary_${$route.params.token}--text`"
-      style="z-index: 10;"
+      style="z-index: 99;"
     >
       <v-row>
         <v-col cols="3" class="d-none d-sm-block"></v-col>
