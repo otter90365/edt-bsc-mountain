@@ -2,24 +2,33 @@
   <div class="defi-page">
     <v-row justify="center" class="my-15">
       <v-col cols="11" sm="9" md="6">
-        <v-card light class="defi-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="`${require(`@/assets/img/icon-deposit-${$route.params.token}.png`)}`" width="60px" class="mb-5">
-          <h2 class="mb-5" :class="`primary_${$route.params.token}--text`">{{ $t('toDeposit') }}</h2>
-          <h3 class="mb-3" :class="`primary_${$route.params.token}--text`">{{ $t('depositRule') }}</h3>
-          <ol class="mb-5">
-            <li v-for="(text, i) in $t(`depositRuleText_${$route.params.token}`)" :key="i" style="white-space: pre-wrap;" v-text="text"></li>
-          </ol>
+        <borderWrapCard class="mb-13">
+          <template #content>
+            <titleBlock class="mb-8" title="toDeposit" icon="icon-deposit.svg"></titleBlock>
+            <h2 class="rem-4 font-weight-bold mb-1 text-center">{{ $t('depositRule') }}</h2>
+            <p class="rem-0 font-weight-bold">
+              <ol>
+                <li v-for="(text, i) in $t(`depositRuleText_${$route.params.token}`)" :key="i" style="white-space: pre-wrap;" v-text="text"></li>
+              </ol>
+            </p>
 
-          <btn class="mb-5" :buttonText="'myDeposit'" :color="`primary_${$route.params.token}`" isOutlined :isCenter="true" :width="270" @clickBtn="clickBtn('orders')"></btn>
-          <btn class="mb-5" :buttonText="'orderList'" :color="`primary_${$route.params.token}`" :isCenter="true" :width="270" @clickBtn="clickBtn('list')"></btn>
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <v-row justify="center">
+              <v-col cols="12" sm="6">
+                <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="myDeposit" @clickBtn="clickBtn('orders')"></imgBtn>
+                <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="orderList" @clickBtn="clickBtn('list')"></imgBtn>
+                <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+              </v-col>
+            </v-row>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
-import btn from '@/components/btn.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 import Defi from '@/plugins/defi.js'
 export default {
   name: "Defi-deposit",
@@ -37,7 +46,9 @@ export default {
     }
   },
   components:{
-    btn,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   methods:{
     async clickBtn(link){
