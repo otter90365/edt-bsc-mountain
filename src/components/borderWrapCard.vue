@@ -2,7 +2,7 @@
   <div class="deco-border-wrap">
     <v-card class="rounded-0 shaped-card border-yellow">
       <v-card class="rounded-0 shaped-card secondary corner-yellow">
-        <v-card class="py-5 px-7 rounded-0 shaped-card main-content">
+        <v-card class="py-5 px-4 px-sm-7 rounded-0 shaped-card main-content">
           <slot name="content"></slot>
         </v-card>
       </v-card>
