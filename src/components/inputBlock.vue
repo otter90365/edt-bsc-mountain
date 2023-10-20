@@ -4,25 +4,25 @@
     <!-- mode input-->
     <v-text-field
       v-if="mode==='input'"
-      class="mr-4"
+      class="mr-4 rounded-0"
       v-model="text"
       outlined
       dense
       :disabled="disabled"
       :rules="rules"
-      :color="`primary_${$route.params.token}`"
+      color="secondary"
     ></v-text-field>
 
     <!-- mode balance-->
     <v-text-field
       v-else-if="mode==='balance'"
-      class="mr-4"
+      class="mr-4 rounded-0"
       v-model="text"
       outlined
       dense
       persistent-hint
       :hint="`Balance: ${balance} ${token.toUpperCase()}`"
-      :color="`primary_${$route.params.token}`"
+      color="secondary"
       :disabled="disabled"
       :rules="[...rules, balanceRule]"
     >
@@ -34,24 +34,26 @@
     <!-- mode select-->
     <v-select
       v-else-if="mode==='select'"
-      class="mr-4"
+      class="mr-4 rounded-0"
       v-model="text"
       outlined
       dense
+      :dark="darkBg"
       :items="selectItems"
       :item-text="'name'"
       :item-value="'value'"
       :disabled="disabled"
       :rules="rules"
-      :color="`primary_${$route.params.token}`"
-      :item-color="`primary_${$route.params.token}`"
+      :background-color="darkBg ? 'secondary' : 'white'"
+      color="secondary"
+      item-color="secondary"
     ></v-select>
 
     <!-- mode onlyText-->
     <div
       v-else-if="mode==='onlyText'"
-      class="mr-4 mb-5"
-      style="width: 100%;"
+      class="mr-4 mb-5 w-100"
+      :class="[darkBg ? 'secondary white--text' : 'white', (inputText !== null && inputText !== '') ? 'py-2' : 'py-4']"
     >{{ inputText }}</div>
     <div class="mb-5" style="min-width: 30px">{{ unit }}</div>
   </div>
@@ -81,6 +83,10 @@ export default {
       default() {
         return []
       }
+    },
+    darkBg: {
+      type: Boolean,
+      default: false
     },
     selectItems: {
       type: Array,

@@ -1,38 +1,26 @@
 <template>
   <div class="defi-create-egt-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="defi-create-egt-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="`${require(`@/assets/img/icon-borrow-egt-${$route.params.token}.png`)}`" width="60px" class="mb-5">
-          <h2 class="mb-5" :class="`primary_${$route.params.token}--text`">EGT / {{ $route.params.token.toUpperCase() }}</h2>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13 defi-create-egt-card">
+          <template #content>
+            <titleBlock class="mb-7" :title="`EGT / ${$route.params.token.toUpperCase()}`" :icon="`icon-borrow-egt-${$route.params.token}.svg`"></titleBlock>
 
-          <v-form ref="form" lazy-validation style="width: 100%;" class="mb-5">
-            <inputBlock title="loanToken" mode="onlyText" inputText="EGT"></inputBlock>
-            <inputBlock title="loanTokenAmount" :unit="$t('piece')" mode="balance" :token="'egt'" :inputText.sync="loan.egtAmount" :disabled="allowance<balance?true:false" :balance="balance" :rules="[...TokenAmountRules]"></inputBlock>
-            <inputBlock title="loanDays" :unit="$t('day')" mode="select" :inputText.sync="loan.date" :disabled="allowance<balance?true:false"></inputBlock>
-            <inputBlock title="loanAmount" :unit="$route.params.token==='usdt'?'UT':'TBT'" :inputText.sync="loan.amount" :rules="[...TokenAmountRules]" :disabled="allowance<balance?true:false"></inputBlock>
-            <inputBlock title="loanRate" unit="%" :inputText.sync="loan.interest" :rules="[...TokenAmountRules, ...rateRules]" :disabled="allowance<balance?true:false"></inputBlock>
-            <inputBlock title="marketValue" :unit="$route.params.token==='usdt'?'UT':'TBT'" mode="onlyText" :inputText="value"></inputBlock>
-            <inputBlock title="loanMortgage" unit="%" mode="onlyText" :inputText="rate"></inputBlock>
-            <!--<div class="d-flex justify-space-between">
-              <div>
-                <span class="mr-10">{{ $t('gasNowEstimate') }}</span>
-                <span class="gas-text error--text font-weight-bold">{{ gasNow }}</span>
-              </div>
-              <span>UT</span>
-            </div>
-            <div class="d-flex justify-center error--text subtitle-2 font-weight-bold text-center">
-              {{ $t('gasWarning') }}
-            </div>
-            <div class="d-flex justify-end subtitle-2">
-              {{ $t('priceUpdated') }} {{ timestampToTime(updateTime) }}
-            </div>-->
-          </v-form>
+            <v-form ref="form" lazy-validation class="mb-5 w-100">
+              <inputBlock title="loanToken" mode="onlyText" inputText="EGT"></inputBlock>
+              <inputBlock title="loanTokenAmount" :unit="$t('piece')" mode="balance" :token="'egt'" :inputText.sync="loan.egtAmount" :disabled="allowance<balance?true:false" :balance="balance" :rules="[...TokenAmountRules]"></inputBlock>
+              <inputBlock title="loanDays" :unit="$t('day')" darkBg mode="select" :inputText.sync="loan.date" :disabled="allowance<balance?true:false"></inputBlock>
+              <inputBlock title="loanAmount" :unit="$route.params.token==='usdt'?'UT':'TBT'" :inputText.sync="loan.amount" :rules="[...TokenAmountRules]" :disabled="allowance<balance?true:false"></inputBlock>
+              <inputBlock title="loanRate" unit="%" :inputText.sync="loan.interest" :rules="[...TokenAmountRules, ...rateRules]" :disabled="allowance<balance?true:false"></inputBlock>
+              <inputBlock title="marketValue" :unit="$route.params.token==='usdt'?'UT':'TBT'" darkBg mode="onlyText" :inputText="value"></inputBlock>
+              <inputBlock title="loanMortgage" unit="%" darkBg mode="onlyText" :inputText="rate"></inputBlock>
+            </v-form>
 
-          <btn class="mb-5" v-if="allowance===0 || allowance<balance" :buttonText="'approve'" :color="'red darken-1'" :isCenter="true" :width="270" @clickBtn="approve()"></btn>
-          <btn class="mb-5" v-else :buttonText="'apply'" :color="`primary_${$route.params.token}`" :isCenter="true" :width="270" @clickBtn="create()"></btn>
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <imgBtn class="mb-3" v-if="allowance===0 || allowance<balance" dark type="bg-black-sloped" buttonText="approve" @clickBtn="approve()"></imgBtn>
+            <imgBtn class="mb-3" v-else dark type="bg-black-sloped" buttonText="apply" @clickBtn="create()"></imgBtn>
+            <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
     <loading :loadingShow="loadingShow" :content="'waitApprove'"></loading>
@@ -43,9 +31,11 @@
 import Defi from '@/plugins/defi.js'
 import EGT from '@/plugins/egt.js'
 import inputBlock from '@/components/inputBlock.vue'
-import btn from '@/components/btn.vue'
 import loading from '@/components/loading.vue'
 import warning from '@/components/warning.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 import base from '@/mixin/base.js'
 export default {
   name: "Defi-borrow-create-egt",
@@ -90,9 +80,11 @@ export default {
   },
   components:{
     inputBlock,
-    btn,
     loading,
-    warning
+    warning,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   methods:{
     async approve(){
