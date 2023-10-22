@@ -1,25 +1,26 @@
 <template>
   <div class="community-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="community-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="require(`@/assets/img/icon-community-${$route.params.token}.png`)" width="60px" class="mb-5">
-          <h2 class="mb-10" :class="`primary_${$route.params.token}--text`">{{ $t('community') }}</h2>
-          <addressBlock></addressBlock>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13">
+          <template #content>
+            <titleBlock class="mb-8" title="community" icon="icon-community.svg"></titleBlock>
+            <addressBlock></addressBlock>
 
-          <v-row style="width: 100%;" class="mb-10">
-            <v-col cols="12" sm="6" class="d-flex flex-column justify-center align-center">
-              <div>{{ $t('refererAmount') }}</div>
-              <h2 :class="`primary_${$route.params.token}--text`">{{ refers }}</h2>
-            </v-col>
-            <v-col cols="12" sm="6" class="d-flex flex-column justify-center align-center">
-              <div>{{ $t('communityAmount') }}</div>
-              <h2 :class="`primary_${$route.params.token}--text`">{{ community }}</h2>
-            </v-col>
-          </v-row>
+            <v-row class="mb-10 w-100">
+              <v-col cols="12" sm="6" class="d-flex flex-column justify-center align-center">
+                <imgBtn dark type="bg-black-sloped" buttonText="refererAmount"></imgBtn>
+                <h2 :class="`secondary--text`">{{ refers }}</h2>
+              </v-col>
+              <v-col cols="12" sm="6" class="d-flex flex-column justify-center align-center">
+                <imgBtn dark type="bg-black-sloped" buttonText="communityAmount"></imgBtn>
+                <h2 :class="`secondary--text`">{{ community }}</h2>
+              </v-col>
+            </v-row>
 
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
     <loading :loadingShow="loadingShow" :content="'waitGetData'"></loading>
@@ -29,6 +30,9 @@
 import addressBlock from '@/components/addressBlock.vue'
 import Defi from "@/plugins/defi.js";
 import loading from '@/components/loading.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 export default {
   name: 'Community',
   data (){
@@ -41,7 +45,10 @@ export default {
   },
   components:{
     addressBlock,
-    loading
+    loading,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   async mounted(){
     this.loadingShow = true
