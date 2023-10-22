@@ -13,7 +13,7 @@
                 v-for="(item, i) in icons"
                 :key="i"
                 @click="$router.push(`/${$route.params.lang}/${$route.params.token}${item.link}`)">
-                <img :src="`${require(`@/assets/img/${item.img}`)}`" :width="$store.state.nowWidth > 600 ? '60px' : '40px'" class="rounded-circle mb-1 mb-sm-3">
+                <img :src="`${require(`@/assets/img/${item.img}`)}`" :width="item.img.includes('twd') ? '80px' : '60px'" class="mb-1 mb-sm-3">
                 <div class="primary--text">{{ item.text }}</div>
               </div>
             </div>
@@ -66,6 +66,9 @@ export default {
       @media (max-width: 600px){
         width: 120px;
         height: 120px;
+        img {
+          transform: scale(0.75);
+        }
       }
     }
   }
