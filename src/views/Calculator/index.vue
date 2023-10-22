@@ -1,30 +1,34 @@
 <template>
   <div class="calculator-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="calculator-card card-wrap d-flex flex-column justify-center align-center">
-          <img :src="`${require(`@/assets/img/icon-calculator-${$route.params.token}.png`)}`" width="60px" class="mb-5">
-          <h2 class="mb-10" :class="`primary_${$route.params.token}--text`">{{ $t('calculator') }}</h2>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13 calculator-card">
+          <template #content>
+            <titleBlock class="mb-8" title="calculator" icon="icon-calculator.svg"></titleBlock>
 
-          <div class="d-flex justify-space-around align-center mb-15">
-            <div class="icon-block d-flex flex-column justify-center align-center can-click"
-              :data-type="$route.params.token"
-              :class="{'ml-sm-10 ml-3':i!==0}"
-              v-for="(item, i) in icons"
-              :key="i"
-              @click="$router.push(`/${$route.params.lang}/${$route.params.token}${item.link}`)">
-              <img :src="`${require(`@/assets/img/${item.img}`)}`" width="60px" class="rounded-circle mb-3">
-              <div class="">{{ item.text }}</div>
+            <div class="d-flex justify-space-around align-center mb-15">
+              <div class="icon-block d-flex flex-column justify-center align-center can-click"
+                :data-type="$route.params.token"
+                :class="{'ml-sm-10 ml-3':i!==0}"
+                v-for="(item, i) in icons"
+                :key="i"
+                @click="$router.push(`/${$route.params.lang}/${$route.params.token}${item.link}`)">
+                <img :src="`${require(`@/assets/img/${item.img}`)}`" :width="$store.state.nowWidth > 600 ? '60px' : '40px'" class="rounded-circle mb-1 mb-sm-3">
+                <div class="primary--text">{{ item.text }}</div>
+              </div>
             </div>
-          </div>
 
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
+import borderWrapCard from '@/components/borderWrapCard'
+import titleBlock from '@/components/titleBlock'
+import imgBtn from '@/components/imgBtn'
 export default {
   data (){
     return {
@@ -35,12 +39,17 @@ export default {
           link: '/calculator/twd',
         },
         {
-          img: 'icon-usdt.png',
+          img: 'icon-usdt.svg',
           text: 'EGT / USDT',
           link: '/calculator/usdt',
         }
       ]
     }
+  },
+  components: {
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   async mounted(){
     
@@ -51,17 +60,13 @@ export default {
 .calculator-page{
   .calculator-card{
     .icon-block{
+      background: url(../../assets/img/deco-black-bg-white-line.svg) center / contain no-repeat;
       width: 180px;
       height: 180px;
-      border: 1px solid #0abbb5;
-      border-radius: 10px;
       @media (max-width: 600px){
         width: 120px;
         height: 120px;
       }
-    }
-    .icon-block[data-type="tbt"]{
-      border-color: #991594 !important;
     }
   }
 }
