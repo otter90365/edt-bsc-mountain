@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// import btn from "@/components/btn.vue";
 import borderWrapCard from '@/components/borderWrapCard.vue'
 import titleBlock from '@/components/titleBlock.vue'
 import imgBtn from '@/components/imgBtn.vue'
@@ -33,7 +32,6 @@ export default {
     }
   },
   components:{
-    // btn,
     borderWrapCard,
     titleBlock,
     imgBtn
