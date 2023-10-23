@@ -1,25 +1,22 @@
 // register the plugin on vue
 import ABI from '@/assets/abi/defi.js'
 import store from '../store'
-import { rpcURL, rpcURL2 } from '@/assets/contract.js'
 const Contract = require('web3-eth-contract');
 const Web3 = require("web3");
-const rpc = document.cookie.includes('appRpc=2') ? rpcURL2 : rpcURL
-Contract.setProvider(rpc);
 
 export default class Defi {
   constructor() {
+    Contract.setProvider(store.state.rpcUrl);
     this.contract = new Contract(ABI, store.state.DefiAddress);
-    this.web3 = new Web3(new Web3.providers.HttpProvider(rpc));
-    // console.log('this.contract', this.contract)
+    this.web3 = new Web3(new Web3.providers.HttpProvider(store.state.rpcUrl));
   }
 
   // Get 可以交易的 token
   async getToken(){
-    let amount = await this.contract.methods.Tradetokenamount().call();
+    let amount = await this.contract.methods.TradeTokenAmount().call();
     let tokenList = []
     for (let i=0; i<parseInt(amount)+1; i++){
-      let data = await this.contract.methods.Tradetokens(i).call();
+      let data = await this.contract.methods.TradeTokens(i).call();
       if (data.status){
         tokenList.push({
           name: data.name,
@@ -35,8 +32,7 @@ export default class Defi {
   async getAddress(){
     try{
       let adt = await this.contract.methods.adt().call();
-      let game = await this.contract.methods.jackpot().call();
-      return {adt: adt, game: game}
+      return { adt }
     }catch(error){
       console.log('error', error)
       return 'error'
@@ -45,7 +41,7 @@ export default class Defi {
 
   // Get total amount
   async getTotalAmount(){
-    let amount = await this.contract.methods.totalamount().call();
+    let amount = await this.contract.methods.totalAmount().call();
     return amount / (10 ** 18)
   }
 
@@ -366,7 +362,7 @@ export default class Defi {
   async sendTransaction(data, value){
     let web3
     if (value){
-      web3 = await new Web3(new Web3.providers.HttpProvider(rpc));
+      web3 = await new Web3(new Web3.providers.HttpProvider(store.state.rpcUrl));
     }
     const transactionParameters = {
       to: store.state.DefiAddress,

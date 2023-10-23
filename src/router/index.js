@@ -280,7 +280,6 @@ router.beforeEach(async (to, from, next) => {
       }
     }catch(error){
       console.log('here error', error)
-      Vue.$cookies.set('appRpc', 2)
       window.location.reload()
     }
   }

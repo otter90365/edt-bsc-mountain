@@ -16,14 +16,14 @@ export default new Vuex.Store({
     EGTAddress: '',
     ETHAddress: '',
     TBTAddress: '0xd7F97f2cBcDC696484dA7C04AD012723392Ce30B',
-    GameAddress: '',
     ADTAddress: '',
     locale: 'tw',
     langs: ['tw', 'jp', 'en', 'cn'],
-    tokens: ['usdt', 'tbt'],
+    tokens: ['usdt'],
     currToken: '',
     nowWidth: 0,
-    backendUrl: 'https://home.api-absolute-uv.com',
+    rpcUrl: '',
+    backendUrl: 'https://mountain-defi.api-absolute-uv.com',
     backendVersion: '/api/v1',
     token: '',
   },
@@ -53,10 +53,12 @@ export default new Vuex.Store({
     },
     updateAddress(state, address){
       state.ADTAddress = address.adt
-      state.GameAddress = address.game
     },
     updateDefiContract(state, address){
       state.DefiAddress = address
+    },
+    updateRpcUrl(state, rpcUrl){
+      state.rpcUrl = rpcUrl
     },
     updateLang(state, lang){
       state.locale = lang
@@ -77,9 +79,8 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    backendUrl(state){
-      return state.currToken === 'usdt' ? 'https://egt-usd-defi.api-absolute-uv.com' : 'https://egt-tbt-defi.api-absolute-uv.com'
-      // return state.currToken === 'usdt' ? 'https://staging-jackpot.egtdefibsc.com' : 'https://egttbt.egtdefibsc.com'
+    backendUrl(){
+      return 'https://mountain-defi.api-absolute-uv.com'
     },
     wsBackendUrl(state){
       return state.currToken === 'usdt' ? 'wss://egt-usd-defi.api-absolute-uv.com' : 'wss://egt-tbt-defi.api-absolute-uv.com'
@@ -104,10 +105,10 @@ export default new Vuex.Store({
     },
     async getDefiContract({ getters, commit }){
       try{
-        let result = await Vue.axios.get(`${getters.backendUrl}/api/v1/defi_contract`)
-        // console.log('defi contract result', result)
+        let result = await Vue.axios.get(`${getters.backendUrl}/api/v1/url`)
         if (result.data.status === 200){
-          commit('updateDefiContract', result.data.data)
+          commit('updateDefiContract', result.data.data.usdt)
+          commit('updateRpcUrl', result.data.data.url)
         }
       }catch(error){
         console.log('error', error)
