@@ -1,28 +1,29 @@
 <template>
   <div class="defi-registry-page">
     <v-row justify="center" class="my-15">
-      <v-col cols="11" sm="9" md="6">
-        <v-card light class="defi-registry-card card-wrap d-flex flex-column justify-center align-center">
-          <h2 class="mb-2" :class="`primary_${$route.params.token}--text`">{{ $route.params.from === 'deposit' ? $t('toDeposit') : $t('toBorrow') }}</h2>
+      <v-col cols="11" sm="9">
+        <borderWrapCard class="mb-13 text-center">
+          <template #content>
+            <titleBlock class="mb-4" :title="$route.params.from === 'deposit' ? 'toDeposit' : 'toBorrow'" icon="icon-registry.svg"></titleBlock>
+            <div class="red--text mb-10">{{ $route.params.from === 'deposit' ? $t('registryDeposit') : $t('registryBorrow') }}</div>
 
-          <div class="red--text mb-10">{{ $route.params.from === 'deposit' ? $t('registryDeposit') : $t('registryBorrow') }}</div>
+            <div>{{ $t('enterReferer') }}</div>
+            <v-form ref="form" lazy-validation class="w-100">
+              <v-text-field
+                class="mb-2"
+                v-model="referer"
+                :color="`primary_${$route.params.token}`"
+                placeholder="0x..."
+                :rules="[...accountRules]"
+              ></v-text-field>
+            </v-form>
 
-          <div>{{ $t('enterReferer') }}</div>
-          <v-form ref="form" lazy-validation style="width: 100%;">
-            <v-text-field
-              class="mb-2"
-              v-model="referer"
-              :color="`primary_${$route.params.token}`"
-              placeholder="0x..."
-              :rules="[...accountRules]"
-            ></v-text-field>
-          </v-form>
+            <addressBlock></addressBlock>
 
-          <addressBlock></addressBlock>
-
-          <btn class="mb-5" :buttonText="'registry'" :color="`primary_${$route.params.token}`" :isCenter="true" :width="270" @clickBtn="register()"></btn>
-          <div class="can-click" @click="$router.push({name: 'Home'})">{{ $t('backToIndex') }}</div>
-        </v-card>
+            <imgBtn class="mb-3" dark type="bg-black-sloped" buttonText="registry" @clickBtn="register()"></imgBtn>
+            <imgBtn class="mb-3" type="border-black-sloped" buttonText="backToIndex" @clickBtn="$router.push({name: 'Home'})"></imgBtn>
+          </template>
+        </borderWrapCard>
       </v-col>
     </v-row>
     <loading :loadingShow="loadingShow" :content="'waitRegistry'"></loading>
@@ -31,9 +32,11 @@
 <script>
 import base from '@/mixin/base.js'
 import Defi from "@/plugins/defi.js";
-import btn from '@/components/btn.vue'
 import addressBlock from '@/components/addressBlock.vue'
 import loading from '@/components/loading.vue'
+import borderWrapCard from '@/components/borderWrapCard.vue'
+import titleBlock from '@/components/titleBlock.vue'
+import imgBtn from '@/components/imgBtn.vue'
 export default {
   name: 'Defi-registry',
   mixins: [base],
@@ -46,9 +49,11 @@ export default {
     }
   },
   components:{
-    btn,
     addressBlock,
-    loading
+    loading,
+    borderWrapCard,
+    titleBlock,
+    imgBtn
   },
   methods:{
     async register(){
