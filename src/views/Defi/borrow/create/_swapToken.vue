@@ -58,8 +58,6 @@ export default {
       timer: null,
       value: null,
       rate: null,
-      gasNow: null,
-      updateTime: null,
       gasLimit: 0,
       isMember: false,
     }
@@ -166,57 +164,17 @@ export default {
       }else{
         this.$router.push({name: 'Defi-borrow-create'})
       }
-    },
-    // Get 預估 gas
-    connectGasWs(){
-      let _this = this
-      this.ws = new WebSocket(`wss://www.gasnow.org/ws`);
-      this.ws.onopen = () => {
-        // console.log('[Client] Successfully Connected', e)
-      }
-      this.ws.onmessage = async function(e) {
-        let data = JSON.parse(e.data)
-        // console.log('data', data)
-        if (data.data && data.data.gasPrices){
-          try{
-            let result = await _this.$store.dispatch('getTokenPrice', {
-              token: 'ethereum',
-              currency: 'usd'
-            })
-            if (result){
-              _this.gasNow = (parseFloat(data.data.gasPrices.standard / (10**18) * 300000) * result.ethereum.usd).toFixed(6)
-              _this.updateTime = data.data.timestamp
-            }else{
-              this.$toasted.error(this.$t('cannotGetGas'))
-              _this.gasNow = null
-            }
-          }catch(error){
-            console.log('error', error)
-          }
-        }
-      }
-      this.ws.onclose = () => {
-        if (this.$route.path.includes(`/borrow/create/${this.$route.params.swapToken}`)){
-          this.$toasted.error(this.$t('renewGetGas'))
-        }
-        console.log("closed");
-      };
-    },
+    }
   },
   async mounted(){
     // defi contract
     this.defiContract = await new Defi()
     this.isMember = await this.defiContract.isMember(this.$store.state.account)
-    // if (this.isMember){
-      if (this.$refs.form){
-        this.$refs.form.resetValidation()
-      }
-      await this.createContract()
-      this.gasLimit = await this.defiContract.getBorrowGas()
-      // this.connectGasWs()
-    // }else{
-    //   this.$router.push({name: 'Defi-registry'})
-    // }
+    if (this.$refs.form){
+      this.$refs.form.resetValidation()
+    }
+    await this.createContract()
+    this.gasLimit = await this.defiContract.getBorrowGas()
   },
   destroyed(){
     if (this.ws){
