@@ -15,7 +15,6 @@ export default new Vuex.Store({
     DefiAddress: '',
     EGTAddress: '',
     ETHAddress: '',
-    TBTAddress: '0xd7F97f2cBcDC696484dA7C04AD012723392Ce30B',
     ADTAddress: '',
     locale: 'tw',
     langs: ['tw', 'jp', 'en', 'cn'],
@@ -42,11 +41,11 @@ export default new Vuex.Store({
     },
     updateTokenList(state, tokenList){
       state.tokenList = tokenList
-      let EGT = tokenList.find((item)=>item.name === 'egt')
+      let EGT = tokenList.find((item) => (item.name).toLowerCase() === 'egt')
       if (EGT){
         state.EGTAddress = EGT.tokenaddress
       }
-      let ETH = tokenList.find((item)=>item.name === 'eth')
+      let ETH = tokenList.find((item) => (item.name).toLowerCase() === 'eth')
       if (ETH){
         state.ETHAddress = ETH.tokenaddress
       }
