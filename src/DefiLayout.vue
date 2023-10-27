@@ -16,7 +16,7 @@
           transition="scale-transition"
           width="30"
           height="30"
-          @click="()=>{if ($route.name!=='Index'){ $router.push({name: 'Index', params: {lang: $store.state.locale}})}}"
+          @click="()=>{if ($route.name!=='Home'){ $router.push({name: 'Home', params: {lang: $store.state.locale}})}}"
         />
       </div>
 

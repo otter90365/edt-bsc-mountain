@@ -1,7 +1,7 @@
 <template>
   <v-app class="app">
     <v-app-bar
-      v-if="$route.name==='Index'"
+      v-if="$route.name==='Home'"
       class="app-bar"
       app
       dark

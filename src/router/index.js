@@ -24,7 +24,7 @@ const routes = [
   // },
   {
     path: '/:lang',
-    name: 'Index',
+    name: 'Home',
     component: () => import('../views/Index.vue'),
     meta: { requiresAuth: false },
   },
