@@ -57,8 +57,6 @@ export default {
       timer: null,
       value: null,
       rate: null,
-      gasNow: null,
-      updateTime: null,
       gasLimit: 0,
       isMember: false,
     }
@@ -143,69 +141,30 @@ export default {
     },
     async getBalance(){
       this.balance = await this.egtContract.getBalance(this.$store.state.account)
-    },
-    // Get 預估 gas
-    connectGasWs(){
-      let _this = this
-      this.ws = new WebSocket(`wss://www.gasnow.org/ws`);
-      this.ws.onopen = () => {
-        // console.log('[Client] Successfully Connected', e)
-      }
-      this.ws.onmessage = async function(e) {
-        let data = JSON.parse(e.data)
-        // console.log('data', data)
-        if (data.data && data.data.gasPrices){
-          try{
-            let result = await _this.$store.dispatch('getTokenPrice', {
-              token: 'ethereum',
-              currency: 'usd'
-            })
-            if (result){
-              _this.gasNow = (parseFloat(data.data.gasPrices.standard / (10**18) * 300000) * result.ethereum.usd).toFixed(6)
-              _this.updateTime = data.data.timestamp
-            }else{
-              this.$toasted.error(this.$t('cannotGetGas'))
-              _this.gasNow = null
-            }
-          }catch(error){
-            console.log('error', error)
-          }
-        }
-      }
-      this.ws.onclose = () => {
-        if (this.$route.path === '/borrow/create/egt'){
-          this.$toasted.error(this.$t('renewGetGas'))
-        }
-        console.log("closed");
-      };
-    },
+    }
   },
   async mounted(){
     // defi contract
     this.defiContract = await new Defi()
     this.isMember = await this.defiContract.isMember(this.$store.state.account)
-    // if (this.isMember){
-      if (this.$refs.form){
-        this.$refs.form.resetValidation()
-      }
-      this.egtContract = await new EGT()
-      this.getBalance()
-      this.allowance = await this.egtContract.getAllowance(this.$store.state.account)
-      this.gasLimit = await this.defiContract.getBorrowGas()
-      this.connectGasWs()
 
-      // 編輯訂單
-      if (this.$route.params.order){
-        this.loan = {
-          egtAmount: this.$route.params.order.amount,
-          date: this.$route.params.order.settleday,
-          amount: this.$route.params.order.want,
-          interest: this.$route.params.order.rate,
-        }
+    if (this.$refs.form){
+      this.$refs.form.resetValidation()
+    }
+    this.egtContract = await new EGT()
+    this.getBalance()
+    this.allowance = await this.egtContract.getAllowance(this.$store.state.account)
+    this.gasLimit = await this.defiContract.getBorrowGas()
+
+    // 編輯訂單
+    if (this.$route.params.order){
+      this.loan = {
+        egtAmount: this.$route.params.order.amount,
+        date: this.$route.params.order.settleday,
+        amount: this.$route.params.order.want,
+        interest: this.$route.params.order.rate,
       }
-    // }else{
-    //   this.$router.push({name: 'Defi-registry'})
-    // }
+    }
   },
   destroyed(){
     if (this.ws){
