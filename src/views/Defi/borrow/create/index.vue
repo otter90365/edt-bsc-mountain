@@ -66,15 +66,15 @@ export default {
   },
   methods:{
     setToken(){
-      // console.log('this.$store.state.tokenList', this.$store.state.tokenList)
       this.icons = []
       let list = this.$store.state.tokenList
       for (let i=0; i<list.length; i++){
+        const name = (list[i].name).toLowerCase()
         this.icons.push({
-          name: list[i].name,
-          img: `icon-${list[i].name}.svg`,
+          name: name,
+          img: `icon-${name}.svg`,
           text: `${(list[i].name).toUpperCase()} / ${this.$route.params.token.toUpperCase()}`,
-          link: `/borrow/create/${list[i].name}`
+          link: `/borrow/create/${name}`
         })
       }
     }
@@ -82,12 +82,7 @@ export default {
   async mounted(){
     // defi contract
     this.defiContract = await new Defi()
-    // let isMember = await this.defiContract.isMember(this.$store.state.account)
-    // if (!isMember){
-    //   this.$router.push({name: 'Defi-registry'})
-    // }else{
-      await this.setToken()
-    // }
+    await this.setToken()
   }
 }
 </script>
