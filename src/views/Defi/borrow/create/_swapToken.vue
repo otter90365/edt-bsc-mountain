@@ -175,11 +175,6 @@ export default {
     }
     await this.createContract()
     this.gasLimit = await this.defiContract.getBorrowGas()
-  },
-  destroyed(){
-    if (this.ws){
-      this.ws.close()
-    }
   }
 }
 </script>

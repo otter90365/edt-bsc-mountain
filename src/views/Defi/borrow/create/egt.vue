@@ -165,11 +165,6 @@ export default {
         interest: this.$route.params.order.rate,
       }
     }
-  },
-  destroyed(){
-    if (this.ws){
-      this.ws.close()
-    }
   }
 }
 </script>
