@@ -148,7 +148,7 @@ export default class Defi {
       let orderIndex = []
       do {
         try{
-          let orders = await this.contract.methods.selforder(
+          let orders = await this.contract.methods.selfOrder(
             type === 'lender'? 1 : 2,
             tokenAddress,
             startAmount

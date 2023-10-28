@@ -1,14 +1,12 @@
 // register the plugin on vue
 import ABI from '@/assets/abi/usdt.js'
 import store from '../store'
-import { USDTAddress, rpcURL, rpcURL2 } from '@/assets/contract.js'
 const Contract = require('web3-eth-contract');
-const rpc = document.cookie.includes('appRpc=2') ? rpcURL2 : rpcURL
-Contract.setProvider(rpc);
 
 export default class bscUsdt {
   constructor() {
-    this.contract = new Contract(ABI, USDTAddress);
+    Contract.setProvider(store.state.rpcUrl)
+    this.contract = new Contract(ABI, store.state.USDTAddress);
     // console.log('this.contract', this.contract)
   }
 
@@ -46,7 +44,7 @@ export default class bscUsdt {
 
   async sendTransaction(data){
     const transactionParameters = {
-      to: USDTAddress,
+      to: store.state.USDTAddress,
       from: window.ethereum.selectedAddress,
       data: data,
     };

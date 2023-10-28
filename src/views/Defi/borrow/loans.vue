@@ -68,7 +68,6 @@ import titleBlock from '@/components/titleBlock.vue'
 import imgBtn from '@/components/imgBtn.vue'
 import Defi from '@/plugins/defi.js'
 import bscUsdt from '@/plugins/bscUsdt.js'
-import bscTbt from '@/plugins/bscTbt.js'
 export default {
   name: "Defi-borrow-loans",
   data (){
@@ -227,22 +226,16 @@ export default {
     this.defiContract = await new Defi()
     let isMember = await this.defiContract.isMember(this.$store.state.account)
     if (isMember){
-      if (this.$route.params.token === 'usdt'){
-        this.tokenContract = await new bscUsdt()
-      }else{
-        this.tokenContract = await new bscTbt()
-      }
+      this.tokenContract = await new bscUsdt()
       this.usdtBalance = await this.tokenContract.getBalance(this.$store.state.account)
       await this.getUsdtAllowance()
 
-      for (let i=0; i<this.$store.state.tokenList.length; i++){
-        this.tokenItems.push({
-          name: this.$store.state.tokenList[i].name.toUpperCase(),
-          value: this.$store.state.tokenList[i].tokenaddress
-        })
-      }
-      this.search = this.tokenItems[0] ? this.tokenItems[0].value : ''
+      this.tokenItems = this.$store.state.tokenList.map(item => ({
+        name: item.name.toUpperCase(),
+        value: item.tokenaddress
+      }))
 
+      this.search = this.tokenItems[0] ? this.tokenItems[0].value : ''
       // await this.getSelfOrders()
       this.loadingShow = false
     }else{

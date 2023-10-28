@@ -65,6 +65,7 @@ export default {
     // 取得欲抵押的 EGT / Eth 市值
     async getValue(token, amount, type){
       try{
+        token = token.toLowerCase()
         let tokenType = token==='egt' || token==='eth' ? 'ethereum' : 
                         token==='btc'                  ? 'bitcoin'  :
                         token==='ebt'                  ? 'eos'      : token
