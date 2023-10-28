@@ -2,7 +2,7 @@
   <div class="btn" :class="{'d-flex justify-center':isCenter}" :style="{width: width? width:''}">
     <v-btn
       class="btn-text"
-      :class="{ 'white--text': !isOutlined, 'font-weight-bold': isRounded, 'rounded-0': noRounded }"
+      :class="{ 'secondary--text': !isOutlined, 'font-weight-bold': isRounded, 'rounded-0': noRounded }"
       :style="{ background: gradientColor }"
       :color="color"
       :width="width"
