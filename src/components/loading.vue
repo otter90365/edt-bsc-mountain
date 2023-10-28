@@ -1,6 +1,6 @@
 <template>
   <v-dialog persistent fullscreen v-model="loadingShow" style="height: 100vh;">
-    <div class="d-flex flex-column justify-center align-center" :class="`primary_${$route.params.token}--text`" style="height: 100%; background-color: rgba(255, 255, 255, .7);">
+    <div class="d-flex flex-column justify-center align-center" :class="`primary_${$route.params.token}--text`" style="height: 100%; background-color: rgba(0, 0, 0, .7);">
       <v-progress-circular
         indeterminate
         :color="`primary_${$route.params.token}`"
