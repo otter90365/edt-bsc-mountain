@@ -5,7 +5,7 @@
         <borderWrapCard class="mb-13">
           <template #content>
             <div class="d-flex flex-column justify-center align-center text-center">
-              <titleBlock class="mb-6" title="indexTitle" subtitle="indexSubtitle" titleFontSize="rem-md-28"></titleBlock>
+              <titleBlock class="mb-6" title="indexTitle" subtitle="indexSubtitle" titleFontSize="rem-md-22"></titleBlock>
               <div class="rem-8 mb-1 font-weight-bold">{{ $t('investAmount') }}</div>
               <div class="rem-8 mb-4 border-secondary w-100" style="color: #E47E07;">{{ totalAmount.toLocaleString() }} {{ ($route.params.token).toUpperCase() }}</div>
               <imgBtn class="w-100 py-3" type="border-black" :buttonText="'swapEGT'" @clickBtn="toSwap()"></imgBtn>
