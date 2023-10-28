@@ -63,7 +63,7 @@
                   item-color="secondary"
                 ></v-select>
               </div>
-              <btn noRounded :buttonText="'filter'" color="secondary" @clickBtn="searchOrder()"></btn>
+              <btn isDark noRounded :buttonText="'filter'" color="secondary" @clickBtn="searchOrder()"></btn>
             </div>
 
             <div class="mb-8 w-100">
