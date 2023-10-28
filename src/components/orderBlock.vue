@@ -7,7 +7,7 @@
         :class="{'red--text':!data.canOrder}"
       >
         {{ data.canOrder ? 
-            `${$t('loanDays')} ${data.settleday / 24} ${$t('day')}` :
+            `${$t('loanDays')} ${data.settleday / 60 / 60 / 24} ${$t('day')}` :
             `${$t('contract')}${status === 'breach' ? $t('expired') :
                                 status === 'buffer' ? $t('buffer') : $t('due')} ${countdown.day}${$t('day')} ${countdown.hour}${$t('hour')} ${countdown.min}${$t('min')} ${countdown.sec}${$t('sec')}`}}
       </div>
@@ -90,7 +90,7 @@
     </v-row>
     
     <div class="d-flex justify-space-around align-center order-btn border-top pa-2 secondary white--text" :data-type="$route.params.token">
-      <div>{{ $t('APR') }} {{ mode==='loan' ? round(365 / (data.settleday / 24) * (round(data.rate))) : round(365 / (data.settleday / 24) * (round(data.rate) / 2)) }} %</div>
+      <div>{{ $t('APR') }} {{ mode==='loan' ? round(365 / (data.settleday / 60 / 60 / 24) * (round(data.rate))) : round(365 / (data.settleday / 60 / 60 / 24) * (round(data.rate) / 2)) }} %</div>
 
       <imgBtn
         v-if="isLock"
@@ -104,6 +104,7 @@
                   : data.canOrder ? false : status!=='breach'"
         :isCenter="true"
         color="primary"
+        isDark
         @clickBtn="clickBtn()"
       ></btn>
     </div>
@@ -174,8 +175,6 @@ export default {
   },
   computed:{
     status(){
-      const BREACH_BUFFER_HOUR = 12
-
       if (this.data.canOrder) {
         return 'waiting'
       }
@@ -185,13 +184,13 @@ export default {
         return 'isCancel'
       }
       
-      if (this.data.filledTime + this.data.settleday + BREACH_BUFFER_HOUR * 3600 >= this.now / 1000
+      if (this.data.filledTime + this.data.settleday + this.$store.state.BREACH_BUFFER_HOUR * 3600 >= this.now / 1000
         && this.now / 1000 >= this.data.filledTime + this.data.settleday
       ) {
         return 'buffer'
       }
       
-      if (this.now / 1000 > this.data.filledTime + this.data.settleday + BREACH_BUFFER_HOUR * 3600) {
+      if (this.now / 1000 > this.data.filledTime + this.data.settleday + this.$store.state.BREACH_BUFFER_HOUR * 3600) {
         return 'breach'
       }
 
@@ -234,10 +233,10 @@ export default {
       }else{
         this.timer = window.setInterval(function () {
           _this.now = Math.floor(Date.now())
-          _this.dueTime = (_this.data.filledTime + _this.data.settleday) * 60 * 60 * 1000
+          _this.dueTime = (_this.data.filledTime + _this.data.settleday) * 1000
           let offsetTIme = (_this.dueTime - _this.now) / 1000
 
-          if (offsetTIme < -43200) {
+          if (offsetTIme < -(_this.$store.state.BREACH_BUFFER_HOUR * 3600)) {
             sec = min = hour = day = 0
             window.clearInterval(_this.timer)
           } else {

@@ -26,6 +26,7 @@ export default new Vuex.Store({
     backendUrl: 'https://mountain-defi.api-absolute-uv.com',
     backendVersion: '/api/v1',
     token: '',
+    BREACH_BUFFER_HOUR: 12
   },
   mutations: {
     updateAccount(state, account){
