@@ -158,28 +158,6 @@ const routes = [
       }
     ]
   },
-  // // // EGT 註冊、購買、兌換
-  // // {
-  // //   path: '/:lang/egt',
-  // //   name: 'Egt',
-  // //   // route level code-splitting
-  // //   // this generates a separate chunk (about.[hash].js) for this route
-  // //   // which is lazy-loaded when the route is visited.
-  // //   component: () => import('../views/Egt/index.vue'),
-  // //   meta: { requiresAuth: true },
-  // // },
-  // // {
-  // //   path: '/:lang/egt/registry',
-  // //   name: 'Egt-registry',
-  // //   component: () => import('../views/Egt/registry.vue'),
-  // //   meta: { requiresAuth: true },
-  // // },
-  // // {
-  // //   path: '/:lang/egt/sell',
-  // //   name: 'Egt-sell',
-  // //   component: () => import('../views/Egt/sell.vue'),
-  // //   meta: { requiresAuth: true },
-  // // },
   {
     // coming soon
     path: '/:lang/coming-soon',
