@@ -144,7 +144,7 @@ export default {
     },
     async createContract(){
       let _this = this
-      let token = this.$store.state.tokenList.find((item)=>item.name === _this.$route.params.swapToken)
+      let token = this.$store.state.tokenList.find((item)=>(item.name).toLowerCase() === _this.$route.params.swapToken)
       // console.log('token', token)
       if (token){
         this.ercContract = await new ERC(token)

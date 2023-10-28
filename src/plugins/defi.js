@@ -66,7 +66,7 @@ export default class Defi {
     const wantString = want.toLocaleString('fullwide', {useGrouping:false})
     const amountString = amount.toLocaleString('fullwide', {useGrouping:false})
     const rateString = rate.toLocaleString('fullwide', {useGrouping:false})
-    let extraData = await this.contract.methods.ercorder(tokenAddress, wantString, amountString, rateString, lendday)
+    let extraData = await this.contract.methods.ercOrder(tokenAddress, wantString, amountString, rateString, lendday)
     let data = extraData.encodeABI()
     return this.sendTransaction(data)
   }
@@ -82,7 +82,7 @@ export default class Defi {
   //   const wantString = want.toLocaleString('fullwide', {useGrouping:false})
   //   const amountString = amount.toLocaleString('fullwide', {useGrouping:false})
   //   const rateString = rate.toLocaleString('fullwide', {useGrouping:false})
-  //   let extraData = await this.contract.methods.ethorder(wantString, rateString, lendday)
+  //   let extraData = await this.contract.methods.ethOrder(wantString, rateString, lendday)
   //   let data = extraData.encodeABI()
   //   return this.sendTransaction(data, amountString)
   // }
@@ -90,7 +90,7 @@ export default class Defi {
   // 取得投資清單總數
   async getOrderAmount(tokenAddress){
     try{
-      let result = await this.contract.methods.tokenorders(tokenAddress).call();
+      let result = await this.contract.methods.tokenOrders(tokenAddress).call();
       return parseInt(result)
     }catch(error){
       console.log('error', error)
@@ -99,21 +99,25 @@ export default class Defi {
   }
   
   // 取得投資清單
-  async getAllOrders(token){
+  async getAllOrders(tokenAddress){
     try{
-      let tokenAddress = token === 'egt' ? store.state.EGTAddress : store.state.ETHAddress
       let amount = await this.getOrderAmount(tokenAddress)
+      console.log('amount', amount)
+      if (amount === 'error') throw new Error('connect error')
+      if (amount === 0) return []
 
       // get all specific token orders' index
       let startAmount = 0
       let result
       let orderIndex = []
       do {        
-        result = await this.contract.methods.allorder(tokenAddress, startAmount, true).call();
-        
-        // console.log('result', result)
+        result = await this.contract.methods.allOrder(tokenAddress, startAmount, true).call();
+        console.log('result', result)
+
         if (result[result.length-1] === "0"){
           let list = this.filterNullOrder(result, startAmount)
+          console.log(typeof list)
+          console.log('list', list)
           orderIndex.push(...list)
         }else{
           orderIndex.push(...result)
@@ -185,7 +189,7 @@ export default class Defi {
       // 全部都是"0"
       if (startAmount === 0){
         let item = await this.contract.methods.Orders(tokenAddress, "0").call();
-        // console.log('item', item)
+        console.log('item', item)
 
         if (filterAddress){
           let dataAddress = (item[filterAddress]).toLowerCase()
@@ -210,7 +214,7 @@ export default class Defi {
     let orders = []
     for (let i=0; i<orderIndex.length; i++){
       
-      let canorder = await this.contract.methods.canorder(tokenAddress, orderIndex[i]).call();
+      let canorder = await this.contract.methods.canOrder(tokenAddress, orderIndex[i]).call();
       
       // 過濾已成交訂單
       if (filterCanorder){
