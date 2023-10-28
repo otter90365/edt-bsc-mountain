@@ -90,7 +90,6 @@
     </v-app-bar>
 
     <v-main id="main" class="secondary">
-      <img  src="@/assets/img/background-mobile.svg" alt="background-deco">
       <router-view/>
     </v-main>
 
@@ -321,20 +320,26 @@ export default {
 // layout
 #main{
   position: relative;
-  img[alt="background-deco"] {
+  &::before {
+    content: '';
     position: absolute;
-    width: 100%;
-    top: 0;
-    display: none;
-    @include dai_vuetify_sm {
-      display: block;
+    width: 90%;
+    height: calc(100% - 270px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url(../src/assets/img/background-desktop-white.svg) bottom / cover no-repeat;
+    @include dai_vuetify_md {
+      background-position: right bottom;
     }
   }
-  // background: url('../src/assets/img/background-mobile.svg') no-repeat 100% / contain;
-  // -webkit-background-size: cover;
-  // -moz-background-size: cover;
-  // -o-background-size: cover;
-  // background-size: cover;
+
+  background: url(../src/assets/img/background-desktop-top.svg) 0 20px / contain no-repeat,
+              url(../src/assets/img/background-desktop-bottom.svg) 0 calc(100% - 20px) / contain no-repeat;
+  @include dai_vuetify_md {
+    background: url(../src/assets/img/background-mobile-top.svg) 0 20px / contain no-repeat,
+                url(../src/assets/img/background-mobile-bottom.svg) 0 calc(100% - 50px) / contain no-repeat;
+  }
 }
 .card-wrap{
   padding: 40px 60px;
