@@ -298,41 +298,34 @@ export default class Defi {
   // }
 
   async getCommunity(walletAddress){
-    let latestBlock = await this.web3.eth.getBlockNumber()
-    let fromBlock = 12933676
     let totalEvents = []
-    do {
-      await this.contract.getPastEvents('Register', {
-        fromBlock: fromBlock,
-        toBlock: fromBlock + 5000 > latestBlock ? 'latest' : fromBlock + 5000,
-      }, function(error){
-        if (error){
-          console.log('error', error);
-          return error
-        }
-      })
-      .then(function (events){
-        if (events.length !== 0){
-          totalEvents.push(...events)
-        }
-      });
-      
-      fromBlock += 5000
-    } while (fromBlock + 5000 < latestBlock)
-    // console.log('totalEvents', totalEvents)
 
-    // // 我的直推人數
-    let myRefs = totalEvents.filter(event => (event.returnValues.referrer).toLowerCase() == walletAddress.toLowerCase())
+    const fromBlock = 33710223
+    const result = await store.dispatch('getCommunity', {
+      fromBlock,
+      defiAddress: store.state.DefiAddress,
+      topic0: '0x98ada70a1cb506dc4591465e1ee9be3fd7a2b6c73ecf3b949009718c9a351519'
+    })
+
+    if (result.status === '1') {
+      totalEvents = result.result
+    }
+
+    // 我的直推人數
+    let myRefs = totalEvents.filter(event => this.topicToAddress(event.topics[2]) === walletAddress.toLowerCase())
     if (myRefs.length === 0){
       return {myRefs: 0, community: 0}
     }else{
-      let myRefList = myRefs.map(event => (event.returnValues.client).toLowerCase())
-      let secondrefs = totalEvents.filter(event => myRefList.includes((event.returnValues.referrer).toLowerCase()))
-      let secondRefList = secondrefs.map(event => (event.returnValues.client).toLowerCase())
-      let thirdrefs = totalEvents.filter(event => secondRefList.includes((event.returnValues.referrer).toLowerCase()))
+      let myRefList = myRefs.map(event => this.topicToAddress(event.topics[1]))
+      let secondrefs = totalEvents.filter(event => myRefList.includes(this.topicToAddress(event.topics[2])))
+      let secondRefList = secondrefs.map(event => this.topicToAddress(event.topics[1]))
+      let thirdrefs = totalEvents.filter(event => secondRefList.includes(this.topicToAddress(event.topics[2])))
       return {myRefs: myRefs.length, community: myRefList.length + secondRefList.length + thirdrefs.length}
     }
-    // return result
+  }
+
+  topicToAddress(topic) {
+    return `0x${topic.toLowerCase().slice(26)}`
   }
 
   async getBorrowGas(){

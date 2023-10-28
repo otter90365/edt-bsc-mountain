@@ -23,6 +23,7 @@ export default new Vuex.Store({
     currToken: '',
     nowWidth: 0,
     rpcUrl: '',
+    bscApiUrl: 'https://api-testnet.bscscan.com',
     backendUrl: 'https://mountain-defi.api-absolute-uv.com',
     backendVersion: '/api/v1',
     token: '',
@@ -102,6 +103,10 @@ export default new Vuex.Store({
       console.log('state', state.chainId)
       // let result = await Vue.axios.get(`https://api-rinkeby.etherscan.io/api?module=account&action=txlist&&address=${data.defiAddress}&startblock=${data.startBlock}&endblock=${data.endBlock}&page=${data.page}&apikey=C9RIE4CZZGHNE7FICYK8FWWUC2MP8WAR86`)
       let result = await Vue.axios.get(`https://api.etherscan.io/api?module=account&action=txlist&&address=${data.defiAddress}&startblock=${data.startBlock}&endblock=${data.endBlock}&page=${data.page}&apikey=C9RIE4CZZGHNE7FICYK8FWWUC2MP8WAR86`)
+      return result.data
+    },
+    async getCommunity({ state }, data){
+      let result = await Vue.axios.get(`${state.bscApiUrl}/api?module=logs&action=getLogs&fromBlock=${data.fromBlock}&toBlock=lastest&address=${data.defiAddress}&topic0=${data.topic0}&apikey=3X36DMC1EMECZHKUACC1611M5WYCJGQHHA`)
       return result.data
     },
     async getDefiContract({ getters, commit }){
