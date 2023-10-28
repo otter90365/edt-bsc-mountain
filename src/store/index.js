@@ -23,7 +23,8 @@ export default new Vuex.Store({
     currToken: '',
     nowWidth: 0,
     rpcUrl: '',
-    bscApiUrl: 'https://api-testnet.bscscan.com',
+    bscscanApiUrl: 'https://api-testnet.bscscan.com',
+    bscscanApiKey: '',
     backendUrl: 'https://mountain-defi.api-absolute-uv.com',
     backendVersion: '/api/v1',
     token: '',
@@ -61,6 +62,9 @@ export default new Vuex.Store({
     },
     updateRpcUrl(state, rpcUrl){
       state.rpcUrl = rpcUrl
+    },
+    updateBscscanApiKey(state, key){
+      state.bscscanApiKey = key
     },
     updateLang(state, lang){
       state.locale = lang
@@ -106,7 +110,7 @@ export default new Vuex.Store({
       return result.data
     },
     async getCommunity({ state }, data){
-      let result = await Vue.axios.get(`${state.bscApiUrl}/api?module=logs&action=getLogs&fromBlock=${data.fromBlock}&toBlock=lastest&address=${data.defiAddress}&topic0=${data.topic0}&apikey=3X36DMC1EMECZHKUACC1611M5WYCJGQHHA`)
+      let result = await Vue.axios.get(`${state.bscscanApiUrl}/api?module=logs&action=getLogs&fromBlock=${data.fromBlock}&toBlock=lastest&address=${data.defiAddress}&topic0=${data.topic0}&apikey=${state.bscscanApiKey}`)
       return result.data
     },
     async getDefiContract({ getters, commit }){
@@ -115,6 +119,7 @@ export default new Vuex.Store({
         if (result.data.status === 200){
           commit('updateDefiContract', result.data.data.usdt)
           commit('updateRpcUrl', result.data.data.url)
+          commit('updateBscscanApiKey', result.data.data.api_key)
         }
       }catch(error){
         console.log('error', error)
