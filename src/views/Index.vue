@@ -19,7 +19,7 @@
                 <div class="d-flex flex-column align-center align-md-start">
                   <div class="rem-8 rem-md-12 font-weight-bold mb-1 secondary--text">{{ $t('successfullyBorrowAmount') }}</div>
                   <div class="rem-8 font-weight-bold mb-7 mb-md-3 text-left text-md-center warning--text">{{ totalAmount[card.token].toLocaleString() }} {{card.token.toUpperCase()}}</div>
-                  <imgBtn dark :buttonText="$t('borrowMarket', {token: card.token.toUpperCase()})" @clickBtn="toLink(card.token)"></imgBtn>
+                  <imgBtn dark :isCenter="false" :buttonText="$t('borrowMarket', {token: card.token.toUpperCase()})" @clickBtn="toLink(card.token)"></imgBtn>
                 </div>
               </div>
             </template>

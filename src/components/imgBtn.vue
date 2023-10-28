@@ -1,7 +1,7 @@
 <template>
   <div
     class="img-btn py-2 px-5 can-click text-center"
-    :class="[dark ? 'white--text' : 'secondary--text', type]"
+    :class="[dark ? 'white--text' : 'secondary--text', {'mx-auto': isCenter}, type]"
     @click.stop="clickBtn()"
   >
     {{ $t(buttonText) }}
@@ -22,6 +22,10 @@ export default {
     dark: {
       type: Boolean,
       default: false
+    },
+    isCenter: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -34,6 +38,7 @@ export default {
 
 <style lang="scss">
 .img-btn {
+  max-width: 230px;
   &.bg-black {
     background: url(../assets/img/btn-bg-black.svg) center / contain no-repeat;
   }
