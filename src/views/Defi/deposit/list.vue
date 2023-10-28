@@ -101,8 +101,6 @@ import titleBlock from '@/components/titleBlock.vue'
 import imgBtn from '@/components/imgBtn.vue'
 import Defi from '@/plugins/defi.js'
 import bscUsdt from '@/plugins/bscUsdt.js'
-import bscTbt from '@/plugins/bscTbt.js'
-import Game from '@/plugins/game.js'
 import base from '@/mixin/base.js'
 export default {
   name: "Defi-deposit-list",
@@ -111,7 +109,6 @@ export default {
     return {
       defiContract: null,
       tokenContract: null,
-      gameContract: null,
       isMember: false,
       orders: [],
       filterOrders: [],
@@ -243,7 +240,7 @@ export default {
   },
   methods:{
     async getMortgage(item){
-      let token = this.$store.state.tokenList.find(t => (t.tokenaddress).toLowerCase() === (item.Token).toLowerCase())
+      let token = this.$store.state.tokenList.find(t => (t.tokenaddress).toLowerCase() === (item.token).toLowerCase())
       let value, rate
       if (token){
         value = await this.getValue(token.name, item.Amount / (10 ** 18), this.$route.params.token);
@@ -254,25 +251,24 @@ export default {
     async getAllOrders(){
       try{
         let result = await this.$store.dispatch('getAllOrders')
-        console.log('getAllOrders, result', result)
         if (result.status === 200){
           if (result.data){
             let allOrders = []
             let data
             let _this = this
             for (let i=0; i<result.data.length; i++){
-              if (result.data[i].Token !== '0x0000000000000000000000000000000000000000'){
+              if (result.data[i].token !== '0x0000000000000000000000000000000000000000'){
                 let rate = await _this.getMortgage(result.data[i])
                 data = {
-                  amount: result.data[i].Amount / (10 ** 18),
-                  borrower: result.data[i].Borrower,
-                  id: result.data[i].Id,
-                  lender: result.data[i].Lender,
-                  rate: parseInt(result.data[i].Rate) / (10 ** 16),
-                  settleday: parseInt(result.data[i].Settleday),
-                  startday: parseInt(result.data[i].Startday),
-                  token: result.data[i].Token,
-                  want: result.data[i].Want / (10 ** 18),
+                  amount: result.data[i].amount / (10 ** 18),
+                  borrower: result.data[i].borrower,
+                  id: result.data[i].id,
+                  lender: result.data[i].lender,
+                  rate: parseInt(result.data[i].rate) / (10 ** 16),
+                  settleday: parseInt(result.data[i].settleday),
+                  startday: parseInt(result.data[i].startday),
+                  token: result.data[i].token,
+                  want: result.data[i].want / (10 ** 18),
                   canOrder: true,
                   mortgage: rate ? parseFloat(rate) : null,
                 }
@@ -352,23 +348,16 @@ export default {
     async invest(item){
       if (this.isMember){
         if (this.$store.state.chainId){
-          // get game detail (是否開獎中)
-          let round = await this.gameContract.getCurrRound()
-          let roundData = await this.gameContract.getRoundDetails(round)
-          if (!roundData.isstop){
-            if (this.usdtBalance >= item.want){
-              let result = await this.defiContract.selectOrder(item.token, parseInt(item.id))
-              // console.log('result', result)
-              if (result.txHash){
-                this.$toasted.show(this.$t('txSend'))
-              }else if (result.code === 4001){
-                this.$toasted.error(this.$t('userRefuse'))
-              }
-            }else{
-              this.$toasted.error(this.$t(`${this.$route.params.token.toUpperCase()}UnderBalance`))
+          if (this.usdtBalance >= item.want){
+            let result = await this.defiContract.selectOrder(item.token, parseInt(item.id))
+            // console.log('result', result)
+            if (result.txHash){
+              this.$toasted.show(this.$t('txSend'))
+            }else if (result.code === 4001){
+              this.$toasted.error(this.$t('userRefuse'))
             }
           }else{
-            this.$toasted.error(this.$t('gameOpening'))
+            this.$toasted.error(this.$t(`${this.$route.params.token.toUpperCase()}UnderBalance`))
           }
         }else{
           this.$toasted.error(this.$t('changeMainnet'))
@@ -403,42 +392,7 @@ export default {
       }else{
         this.$toasted.error(this.$t('changeMainnet'))
       }
-    },
-    // Get 預估 gas
-    connectGasWs(){
-      let _this = this
-      this.ws = new WebSocket(`wss://www.gasnow.org/ws`);
-      this.ws.onopen = () => {
-        // console.log('[Client] Successfully Connected', e)
-      }
-      this.ws.onmessage = async function(e) {
-        let data = JSON.parse(e.data)
-        // console.log('data', data)
-        if (data.data && data.data.gasPrices){
-          try{
-            let result = await _this.$store.dispatch('getTokenPrice', {
-              token: 'ethereum',
-              currency: 'usd'
-            })
-            if (result){
-              _this.gasNow = (parseFloat(data.data.gasPrices.standard / (10**18) * 1000000) * result.ethereum.usd).toFixed(6)
-              _this.updateTime = data.data.timestamp
-            }else{
-              this.$toasted.error(this.$t('cannotGetGas'))
-              _this.gasNow = null
-            }
-          }catch(error){
-            console.log('error', error)
-          }
-        }
-      }
-      this.ws.onclose = () => {
-        if (this.$route.path === '/deposit/list'){
-          this.$toasted.error(this.$t('renewGetGas'))
-        }
-        console.log("closed");
-      };
-    },
+    }
   },
   async mounted(){
     // defi contract
@@ -446,29 +400,19 @@ export default {
     this.loadingShow = true
     this.defiContract = await new Defi()
     this.isMember = await this.defiContract.isMember(this.$store.state.account)
-    // if (this.isMember){
-      await this.getAllOrders()
-      if (this.$route.params.token === 'usdt'){
-        this.tokenContract = await new bscUsdt()
-      }else{
-        this.tokenContract = await new bscTbt()
-      }
-      await this.getUsdtBalance()
-      await this.getUsdtAllowance()
+    
+    await this.getAllOrders()
+    this.tokenContract = await new bscUsdt()
+    await this.getUsdtBalance()
+    await this.getUsdtAllowance()
 
-      this.gameContract = await new Game()
-      for (let i=0; i<this.$store.state.tokenList.length; i++){
-        this.tokenItems.push({
-          name: this.$store.state.tokenList[i].name.toUpperCase(),
-          value: this.$store.state.tokenList[i].tokenaddress
-        })
-      }
-      // this.connectGasWs()
-      this.gasLimit = await this.defiContract.getInvestGas()
-      this.loadingShow = false
-    // }else{
-    //   this.$router.push({name: 'Defi-registry'})
-    // }
+    this.tokenItems = this.$store.state.tokenList.map(item => ({
+      name: item.name.toUpperCase(),
+      value: item.tokenaddress
+    }))
+
+    this.gasLimit = await this.defiContract.getInvestGas()
+    this.loadingShow = false
   },
   destroyed(){
     if (this.ws){

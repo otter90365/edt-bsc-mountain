@@ -257,7 +257,7 @@ export default class Defi {
   }
 
   async selectOrder(token, i){
-    let extraData = await this.contract.methods.choseorder(token, i)
+    let extraData = await this.contract.methods.choseOrder(token, i)
     let data = extraData.encodeABI()
     return this.sendTransaction(data)
   }
