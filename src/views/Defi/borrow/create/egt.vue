@@ -120,7 +120,7 @@ export default {
             this.loan.egtAmount = parseFloat(this.loan.egtAmount)
             this.loan.interest = parseFloat(this.loan.interest)
 
-            let token = this.$store.state.tokenList.find((item)=>item.name === 'egt')
+            let token = this.$store.state.tokenList.find((item)=>(item.name).toLowerCase() === 'egt')
             let result = await this.defiContract.ercorder(this.loan, token.tokenaddress)
             // console.log('result', result)
             if (result.txHash){
