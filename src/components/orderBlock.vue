@@ -174,17 +174,28 @@ export default {
   },
   computed:{
     status(){
-      if (this.data.canOrder){
+      const BREACH_BUFFER_HOUR = 12
+
+      if (this.data.canOrder) {
         return 'waiting'
-      }else if (this.data.isComplete){// && this.data.filledTime + this.data.settleday + 12 >= this.now / 3600000
-        return 'repay'
-      }else if (!this.data.isComplete && this.data.filledTime + this.data.settleday + 12 >= this.now / 3600000 && this.now / 3600000 >= this.data.filledTime + this.data.settleday){
-        return 'buffer'
-      }else if (!this.data.isComplete && this.now / 3600000 > this.data.filledTime + this.data.settleday + 12){
-        return 'breach'
-      }else{
-        return 'loaning'
       }
+
+      if (this.data.isComplete) {
+        if (this.data.filledTime) return 'repay'
+        return 'isCancel'
+      }
+      
+      if (this.data.filledTime + this.data.settleday + BREACH_BUFFER_HOUR * 3600 >= this.now / 1000
+        && this.now / 1000 >= this.data.filledTime + this.data.settleday
+      ) {
+        return 'buffer'
+      }
+      
+      if (this.now / 1000 > this.data.filledTime + this.data.settleday + BREACH_BUFFER_HOUR * 3600) {
+        return 'breach'
+      }
+
+      return 'loaning'
     },
     completed(){
       if (this.status === 'waiting' || this.status === 'loaning' || this.status === 'buffer'){

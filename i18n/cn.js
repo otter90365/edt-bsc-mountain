@@ -133,6 +133,7 @@ export default {
   waiting: '待媒合',
   repay: '已还款',
   breach: '违约',
+  isCancel: '取消',
   loaning: '贷款中',
   approve: '申请前请先解锁',
   more: '大于',

@@ -41,7 +41,7 @@ export default new Vuex.Store({
       state.token = token
     },
     updateTokenList(state, tokenList){
-      state.tokenList = tokenList
+      state.tokenList = tokenList.map(item => ({...item, name: item.name.toLowerCase()}))
       let EGT = tokenList.find((item) => (item.name).toLowerCase() === 'egt')
       if (EGT){
         state.EGTAddress = EGT.tokenaddress

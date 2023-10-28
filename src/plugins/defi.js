@@ -222,7 +222,6 @@ export default class Defi {
       }
       
       let item = await this.contract.methods.Orders(tokenAddress, orderIndex[i]).call();
-      // console.log('item', item)
 
       if (filterAddress){
         let dataAddress = (item[filterAddress]).toLowerCase()
@@ -248,8 +247,7 @@ export default class Defi {
       // 取得已成交借據資料
       if (!canorder && isReceipt){
         let receipt = await this.contract.methods.Ious(tokenAddress, orderIndex[i]).call();
-        // console.log('receipt', receipt)
-        data.isComplete = receipt.completeorder
+        data.isComplete = receipt.completeOrder
         data.filledTime = parseInt(receipt.lenderordertime)
       }
       orders.push(data)
@@ -265,7 +263,7 @@ export default class Defi {
   }
 
   async payback(token, i){
-    let extraData = await this.contract.methods.payback(token, i)
+    let extraData = await this.contract.methods.payBack(token, i)
     let data = extraData.encodeABI()
     return this.sendTransaction(data)
   }
@@ -277,7 +275,7 @@ export default class Defi {
   }
 
   async cancel(token, i){
-    let extraData = await this.contract.methods.borrowertake(token, i)
+    let extraData = await this.contract.methods.borrowerTake(token, i)
     let data = extraData.encodeABI()
     return this.sendTransaction(data)
   }

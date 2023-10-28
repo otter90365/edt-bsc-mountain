@@ -132,6 +132,7 @@ export default {
   waiting: '待媒合',
   repay: '已還款',
   breach: '違約',
+  isCancel: '取消',
   loaning: '貸款中',
   approve: '申請前請先解鎖',
   more: '大於',

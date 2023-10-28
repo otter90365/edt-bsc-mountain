@@ -133,6 +133,7 @@ export default {
   waiting: 'Pending',
   repay: 'Repaid',
   breach: 'In default',
+  isCancel: 'Cancel',
   loaning: 'Ongoing',
   approve: 'Unlock before Applying',
   more: 'More than',

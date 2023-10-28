@@ -133,6 +133,7 @@ export default {
   waiting: 'マッチング待ち',
   repay: '返済済み',
   breach: '違約',
+  isCancel: 'キャンセル',
   loaning: '融資中',
   approve: '申請前にロックを解除してください。',
   more: '大なり',
