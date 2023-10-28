@@ -28,7 +28,7 @@ export default class Defi {
     return tokenList
   }
 
-  // Get Adt & game address
+  // Get Adt address
   async getAddress(){
     try{
       let adt = await this.contract.methods.adt().call();

@@ -141,14 +141,6 @@ const routes = [
         meta: { requiresAuth: true },
       },
 
-      // game
-      {
-        path: '5c9wrqGSSa',
-        name: 'Game',
-        component: () => import('../views/Game.vue'),
-        meta: { requiresAuth: true },
-      },
-
       // ADT
       {
         path: 'adt',
@@ -163,14 +155,7 @@ const routes = [
         name: 'GasFee',
         component: () => import('../views/GasFee.vue'),
         meta: { requiresAuth: false },
-      },
-      // Admin
-      {
-        path: 'admin',
-        name: 'Admin',
-        component: () => import('../views/Admin.vue'),
-        meta: { requiresAuth: false },
-      },
+      }
     ]
   },
   // // // EGT 註冊、購買、兌換
