@@ -3,6 +3,7 @@
     <h1 class="title-text d-flex align-center" :class="[titleFontSize, {'flex-column flex-md-row': icon}]">
       <img
         v-if="icon"
+        id="title-icon"
         class="mr-2"
         :src="require(`@/assets/img/${icon}`)"
         :alt="`icon-${title}`"
@@ -46,6 +47,9 @@ export default {
   }
   .subtitle-text {
     color: #6D6F79;
+  }
+  img[id="title-icon"] {
+    max-height: 25px !important;
   }
 }
 </style>
