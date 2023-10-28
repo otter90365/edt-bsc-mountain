@@ -148,12 +148,10 @@ export default {
     this.defiContract = await new Defi()
     let isMember = await this.defiContract.isMember(this.$store.state.account)
     if (isMember){
-      for (let i=0; i<this.$store.state.tokenList.length; i++){
-        this.tokenItems.push({
-          name: this.$store.state.tokenList[i].name.toUpperCase(),
-          value: this.$store.state.tokenList[i].tokenaddress
-        })
-      }
+      this.tokenItems = this.$store.state.tokenList.map(item => ({
+        name: item.name.toUpperCase(),
+        value: item.tokenaddress
+      }))
       this.search = this.tokenItems[0] ? this.tokenItems[0].value : ''
 
       // await this.getSelfOrders()
