@@ -9,7 +9,7 @@
             <v-form ref="form" lazy-validation style="width: 100%;" class="mb-5">
               <inputBlock title="loanToken" mode="onlyText" :inputText="($route.params.swapToken).toUpperCase()"></inputBlock>
               <inputBlock title="loanTokenAmount" :unit="$t('piece')" mode="balance" :token="$route.params.swapToken" :inputText.sync="loan.egtAmount" :disabled="allowance<balance?true:false" :balance="balance" :rules="[...TokenAmountRules]"></inputBlock>
-              <inputBlock title="loanDays" :unit="$t('day')" darkBg mode="select" :inputText.sync="loan.date" :disabled="allowance<balance?true:false"></inputBlock>
+              <inputBlock title="loanDays" :unit="$t('day')" darkBg mode="select" :inputText.sync="loan.date" :disabled="allowance<balance?true:false" :rules="[dataRules]"></inputBlock>
               <inputBlock title="loanAmount" :unit="$route.params.token==='usdt'?'UT':'TBT'" :inputText.sync="loan.amount" :rules="[...TokenAmountRules]" :disabled="allowance<balance?true:false"></inputBlock>
               <inputBlock title="loanRate" unit="%" :inputText.sync="loan.interest" :rules="[...TokenAmountRules]" :disabled="allowance<balance?true:false"></inputBlock>
               <inputBlock title="marketValue" :unit="$route.params.token==='usdt'?'UT':'TBT'" darkBg mode="onlyText" :inputText="value"></inputBlock>
@@ -47,7 +47,7 @@ export default {
       ercContract: null,
       loan: {
         egtAmount: null,
-        date: 7 * 24,
+        date: 7 * 24 * 60 * 60,
         amount: null,
         interest: null,
       },
@@ -125,7 +125,7 @@ export default {
             if (result.txHash){
               this.$toasted.show(this.$t('txSend'))
               this.$refs.form.reset()
-              this.loan.date = 7 * 24
+              this.loan.date = 7 * 24 * 60 * 60
               await this.getBalance()
             }else if (result.code === 4001){
               this.$toasted.error(this.$t('userRefuse'))
