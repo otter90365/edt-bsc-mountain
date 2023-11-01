@@ -195,6 +195,6 @@ export default {
   background-color: #E53935 !important;
 }
 .toasted.toasted-primary.default{
-  background-color: #0abbb5 !important;
+  background-color: #FABF28 !important;
 }
 </style>
