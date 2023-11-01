@@ -269,7 +269,7 @@ export default class Defi {
   }
 
   async take(token, i){
-    let extraData = await this.contract.methods.takemortgage(token, i)
+    let extraData = await this.contract.methods.takeMortgage(token, i)
     let data = extraData.encodeABI()
     return this.sendTransaction(data)
   }
