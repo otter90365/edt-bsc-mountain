@@ -100,7 +100,7 @@
       right
       light
       hide-overlay
-      style="top: 48px;"
+      style="top: 48px; z-index: 99;"
     >
       <v-list dense>
         <v-list-item
