@@ -39,8 +39,12 @@ export default {
   methods:{
     toSwap(){
       if (this.$store.state.account){
-        // this.$router.push({name: 'Egt-swap', params: {lang: this.$store.state.locale, token: this.$route.params.token}})
-        this.$router.push({name: 'ComingSoon'})
+        this.$router.push({
+          name: 'Swap',
+          params: {
+            lang: this.$store.state.locale
+          }
+        })
       }else{
         this.$toasted.error(this.$t('loginFirst'))
       }

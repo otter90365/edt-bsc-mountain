@@ -82,6 +82,7 @@ export default {
   userAddress: '使用者地址',
   enterBridgeAmount: '請輸入欲發放的 ETH-EGT 數量',
   sendToken: '發放',
+  swapTitle: '我要兌換',
   // game
   luckyPool: '幸運彩金池',
   countdown: '開獎倒數',

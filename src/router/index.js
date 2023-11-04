@@ -38,11 +38,24 @@ const routes = [
         name: 'lang-token',
         component: Home,
       },
+      // swap egt & eth
       {
-        path: 'egt/swap',
-        name: 'Egt-swap',
-        component: () => import('../views/Egt/swap.vue'),
+        path: 'swap',
+        name: 'Swap',
+        component: () => import('../views/Swap/index.vue'),
         meta: { requiresAuth: false },
+      },
+      {
+        path: 'swap/egt',
+        name: 'Swap-egt',
+        component: () => import('../views/Swap/egt.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'swap/eth',
+        name: 'Swap-eth',
+        component: () => import('../views/Swap/eth.vue'),
+        meta: { requiresAuth: true },
       },
 
       // BSC-EGT 發送頁面
