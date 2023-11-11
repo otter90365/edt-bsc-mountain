@@ -83,6 +83,9 @@ export default {
   enterBridgeAmount: '請輸入欲發放的 ETH-EGT 數量',
   sendToken: '發放',
   swapTitle: '我要兌換',
+  tokenBalance: '持有數量',
+  swapAmount: '兌換數量',
+  tokenBalanceAmount: '{amount} 顆 {token}',
   // game
   luckyPool: '幸運彩金池',
   countdown: '開獎倒數',
@@ -202,6 +205,7 @@ export default {
   waitApprove: '解鎖中，請稍後',
   waitRegistry: '註冊中，請稍後',
   waitClaim: '提取中，請稍後',
+  waitBuying: '進行中，請稍後',
   txSend: '交易已送出',
   userRefuse: '使用者拒絕連線',
   addressHasUsed: '此地址已註冊',

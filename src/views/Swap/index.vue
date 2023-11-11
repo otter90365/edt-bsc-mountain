@@ -40,16 +40,16 @@ export default {
     return {
       icons: [
         {
-          name: 'eth',
+          name: 'egt',
           img: `icon-eth.svg`,
           text: `EGT / ETH`,
-          link: `/swap/eth`
+          link: `/swap/egt`
         },
         {
-          name: 'egt',
+          name: 'eth',
           img: `icon-egt.svg`,
           text: `ETH / EGT`,
-          link: `/swap/egt`
+          link: `/swap/eth`
         }
       ],
     }

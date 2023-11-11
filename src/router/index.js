@@ -93,6 +93,12 @@ const routes = [
         component: () => import('../views/Defi/registry.vue'),
         meta: { requiresAuth: false },
       },
+      {
+        path: 'registry/egt',
+        name: 'Egt-registry',
+        component: () => import('../views/Defi/registry-egt.vue'),
+        meta: { requiresAuth: false },
+      },
 
       // 我要投資
       {

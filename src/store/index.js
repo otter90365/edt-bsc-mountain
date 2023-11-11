@@ -16,6 +16,7 @@ export default new Vuex.Store({
     EGTAddress: '',
     ETHAddress: '',
     USDTAddress: '0xDd5C6cfADD8631ba00EE3f0EA2aA3e747356D764',
+    EGTSwapAddress: '0xBE96377f9b4798e265Aa61d1A9F06847bD4864fE',
     ADTAddress: '',
     locale: 'tw',
     langs: ['tw'],

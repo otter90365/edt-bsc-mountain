@@ -1,18 +1,15 @@
 // register the plugin on vue
 import ABI from '@/assets/abi/egt.js'
 import store from '../store'
-import { rpcURL, rpcURL2 } from '@/assets/contract.js'
-const Web3 = require("web3");
-const Contract = require('web3-eth-contract');
-const rpc = document.cookie.includes('appRpc=2') ? rpcURL2 : rpcURL
-Contract.setProvider(rpc);
+const Web3 = require("web3")
+const Contract = require('web3-eth-contract')
 
 export default class ERC {
   constructor(token) {
+    Contract.setProvider(store.state.rpcUrl)
     this.token = token
     this.decimals = parseInt(token.decimals)
-    this.contract = new Contract(ABI, token.tokenaddress);
-    // console.log('this.contract', this.contract)
+    this.contract = new Contract(ABI, this.token.tokenaddress);
   }
 
   async getBalance(walletAddress) {
@@ -27,6 +24,11 @@ export default class ERC {
 
   async getEgtAllowance(walletAddress){
     let allowance = await this.contract.methods.allowance(walletAddress, store.state.EGTAddress).call();
+    return parseInt(allowance) / (10 ** 18)
+  }
+
+  async getOtherAllowance(walletAddress, contract){
+    let allowance = await this.contract.methods.allowance(walletAddress, contract).call();
     return parseInt(allowance) / (10 ** 18)
   }
 
@@ -60,7 +62,6 @@ export default class ERC {
   async approve(){
     const num = 1000000000 * 10 ** this.decimals;
     const numString = num.toLocaleString('fullwide', {useGrouping:false})
-    // console.log('numString', numString)
 
     let extraData =  await this.contract.methods.approve(store.state.DefiAddress, numString)
     let data = extraData.encodeABI()
@@ -70,9 +71,17 @@ export default class ERC {
   async approveEgt(){
     const num = 1000000000 * 10 ** 18;
     const numString = num.toLocaleString('fullwide', {useGrouping:false})
-    // console.log('numString', numString)
 
     let extraData =  await this.contract.methods.approve(store.state.EGTAddress, numString)
+    let data = extraData.encodeABI()
+    return this.sendTransaction(data)
+  }
+
+  async approveOther(contract){
+    const num = 1000000000 * 10 ** 18;
+    const numString = num.toLocaleString('fullwide', {useGrouping:false})
+
+    let extraData =  await this.contract.methods.approve(contract, numString)
     let data = extraData.encodeABI()
     return this.sendTransaction(data)
   }
@@ -80,7 +89,7 @@ export default class ERC {
   async sendTransaction(data, value){
     let web3
     if (value){
-      web3 = await new Web3(new Web3.providers.HttpProvider(rpc));
+      web3 = await new Web3(new Web3.providers.HttpProvider(store.state.rpcUrl))
     }
     const transactionParameters = {
       to: this.token.tokenaddress,
