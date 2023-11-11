@@ -58,14 +58,6 @@ const routes = [
         meta: { requiresAuth: true },
       },
 
-      // BSC-EGT 發送頁面
-      {
-        path: 'Ethegt/send',
-        name: 'Ethegt-send',
-        component: () => import('../views/Ethegt/send.vue'),
-        meta: { requiresAuth: false },
-      },
-
       // EGT 換算器
       {
         path: 'calculator',
@@ -165,14 +157,6 @@ const routes = [
         path: 'adt',
         name: 'ADT',
         component: () => import('../views/Adt.vue'),
-        meta: { requiresAuth: false },
-      },
-
-      // Gas Fee
-      {
-        path: 'gas',
-        name: 'GasFee',
-        component: () => import('../views/GasFee.vue'),
         meta: { requiresAuth: false },
       }
     ]
