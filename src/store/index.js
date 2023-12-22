@@ -26,7 +26,8 @@ export default new Vuex.Store({
     rpcUrl: '',
     bscscanApiUrl: 'https://api-testnet.bscscan.com',
     bscscanApiKey: '',
-    backendUrl: 'https://mountain-defi.api-absolute-uv.com',
+    // backendUrl: 'https://mountain-defi.api-absolute-uv.com',
+    backendUrl: 'http://34.135.238.52:7426',
     backendVersion: '/api/v1',
     token: '',
     BREACH_BUFFER_HOUR: 12
