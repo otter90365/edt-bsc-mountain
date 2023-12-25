@@ -88,7 +88,8 @@ export default new Vuex.Store({
   },
   getters: {
     backendUrl(){
-      return 'https://mountain-defi.api-absolute-uv.com'
+      // return 'https://mountain-defi.api-absolute-uv.com'
+      return 'http://34.135.238.52:7426'
     },
     wsBackendUrl(state){
       return state.currToken === 'usdt' ? 'wss://egt-usd-defi.api-absolute-uv.com' : 'wss://egt-tbt-defi.api-absolute-uv.com'
