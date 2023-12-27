@@ -27,7 +27,7 @@ export default new Vuex.Store({
     bscscanApiUrl: 'https://api-testnet.bscscan.com',
     bscscanApiKey: '',
     // backendUrl: 'https://mountain-defi.api-absolute-uv.com',
-    backendUrl: 'http://34.135.238.52:7426',
+    backendUrl: 'https://defi-backend-bgkgcaksaq-uc.a.run.app',
     backendVersion: '/api/v1',
     token: '',
     BREACH_BUFFER_HOUR: 12
@@ -89,7 +89,7 @@ export default new Vuex.Store({
   getters: {
     backendUrl(){
       // return 'https://mountain-defi.api-absolute-uv.com'
-      return 'http://34.135.238.52:7426'
+      return 'https://defi-backend-bgkgcaksaq-uc.a.run.app'
     },
     wsBackendUrl(state){
       return state.currToken === 'usdt' ? 'wss://egt-usd-defi.api-absolute-uv.com' : 'wss://egt-tbt-defi.api-absolute-uv.com'
