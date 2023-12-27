@@ -24,7 +24,7 @@ export default new Vuex.Store({
     currToken: '',
     nowWidth: 0,
     rpcUrl: '',
-    bscscanApiUrl: 'https://api-testnet.bscscan.com',
+    bscscanApiUrl: 'https://api.bscscan.com',
     bscscanApiKey: '',
     // backendUrl: 'https://mountain-defi.api-absolute-uv.com',
     backendUrl: 'https://defi-backend-bgkgcaksaq-uc.a.run.app',
