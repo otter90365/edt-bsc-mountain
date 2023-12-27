@@ -20,6 +20,7 @@
                     placeholder="0"
                     label="EGT"
                     :rules="[...TokenAmountRules]"
+                    @keydown.enter.prevent="calculate()"
                   >
                   </v-text-field>
                   <v-icon class="mb-n3" color="secondary">mdi-chevron-up</v-icon>
@@ -78,18 +79,11 @@ export default {
             this.$toasted.error(this.$t('errorOccured'))
           }
         }catch (error){
-          console.log('error', error)
+          // console.log('error', error)
           this.$toasted.error(this.$t('errorOccured'))
         }
       }
-    },
-  },
-}
-</script>
-<style lang="scss">
-.calculator-twd-page{
-  .calculator-card{
-    
+    }
   }
 }
-</style>
+</script>
